@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api:/app
+    # command: sh -c "npm run start:dev"
+
+  db:
+    container_name: db
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  db-data: {}
