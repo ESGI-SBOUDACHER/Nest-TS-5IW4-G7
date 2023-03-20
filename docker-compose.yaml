@@ -7,8 +7,11 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./api:/app
-    # command: sh -c "npm run start:dev"
+      - ./api:/usr/src/app
+      - ./api/node_modules:/usr/src/app/node_modules
+
+    command: npm run start:dev
+    # command: npm install && npm run start:dev
 
   db:
     container_name: db
