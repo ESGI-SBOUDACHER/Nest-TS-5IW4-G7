@@ -7,6 +7,9 @@ stop:
 down:
 	docker compose down
 
+restart:
+	docker compose restart
+
 migrate:
 	docker compose exec api npx prisma migrate dev
 
