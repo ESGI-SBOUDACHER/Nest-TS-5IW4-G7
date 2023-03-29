@@ -28,3 +28,4 @@ make migrate
 
 - Go to http://localhost:3000 to interact with the API
 - Go to http://localhost:8080 to interact with the database with adminer
+- You can import `postman-requests.json` file into Postman to execute and test the routes
