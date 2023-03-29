@@ -1,92 +1,80 @@
-import { Role, Prisma } from '@prisma/client';
+import { Role, Prisma, PrismaClient } from '@prisma/client';
 
-export const users: Prisma.UserUpsertArgs[] = [
+const users: Prisma.UserCreateInput[] = [
   {
-    where: { email: 'oceane@user.fr' },
-    update: {},
-    create: {
-      email: 'oceane@user.fr',
-      firstname: 'Oceane',
-      role: Role.ADMIN,
-      password: 'password',
-      lastname: 'User',
-    },
+    email: 'oceane@user.fr',
+    firstname: 'Oceane',
+    role: Role.ADMIN,
+    password: 'password',
+    lastname: 'User',
   },
   {
-    where: { email: 'oceane@admin.fr' },
-    update: {},
-    create: {
-      email: 'oceane@admin.fr',
-      firstname: 'Oceane',
-      role: Role.USER,
-      lastname: 'Admin',
-      password: 'password',
-    },
+    email: 'oceane@admin.fr',
+    firstname: 'Oceane',
+    role: Role.USER,
+    lastname: 'Admin',
+    password: 'password',
   },
   {
-    where: { email: 'sylvain@user.fr' },
-    update: {},
-    create: {
-      email: 'sylvain@user.fr',
-      firstname: 'Sylvain',
-      role: Role.ADMIN,
-      password: 'password',
-      lastname: 'User',
-    },
+    email: 'sylvain@user.fr',
+    firstname: 'Sylvain',
+    role: Role.ADMIN,
+    password: 'password',
+    lastname: 'User',
   },
   {
-    where: { email: 'sylvain@admin.fr' },
-    update: {},
-    create: {
-      email: 'sylvain@admin.fr',
-      firstname: 'Sylvain',
-      role: Role.USER,
-      lastname: 'Admin',
-      password: 'password',
-    },
+    email: 'sylvain@admin.fr',
+    firstname: 'Sylvain',
+    role: Role.USER,
+    lastname: 'Admin',
+    password: 'password',
   },
   {
-    where: { email: 'romain@user.fr' },
-    update: {},
-    create: {
-      email: 'romain@user.fr',
-      firstname: 'Romain',
-      role: Role.ADMIN,
-      password: 'password',
-      lastname: 'User',
-    },
+    email: 'romain@user.fr',
+    firstname: 'Romain',
+    role: Role.ADMIN,
+    password: 'password',
+    lastname: 'User',
   },
   {
-    where: { email: 'romain@admin.fr' },
-    update: {},
-    create: {
-      email: 'romain@admin.fr',
-      firstname: 'Romain',
-      role: Role.USER,
-      lastname: 'Admin',
-      password: 'password',
-    },
+    email: 'romain@admin.fr',
+    firstname: 'Romain',
+    role: Role.USER,
+    lastname: 'Admin',
+    password: 'password',
   },
   {
-    where: { email: 'coraline@user.fr' },
-    update: {},
-    create: {
-      email: 'coraline@user.fr',
-      firstname: 'Coraline',
-      role: Role.ADMIN,
-      password: 'password',
-      lastname: 'User',
-    },
+    email: 'coraline@user.fr',
+    firstname: 'Coraline',
+    role: Role.ADMIN,
+    password: 'password',
+    lastname: 'User',
   },
   {
-    where: { email: 'coraline@admin.fr' },
-    update: {},
-    create: {
-      email: 'coraline@admin.fr',
-      firstname: 'Coraline',
-      role: Role.USER,
-      lastname: 'Admin',
-      password: 'password',
-    },
+    email: 'coraline@admin.fr',
+    firstname: 'Coraline',
+    role: Role.USER,
+    lastname: 'Admin',
+    password: 'password',
   },
 ];
+
+const prisma = new PrismaClient();
+
+async function main() {
+  await prisma.user
+    .createMany({ data: users })
+    .then(() => console.log('[SEED] successfully create users records'))
+    .catch((e) => console.log('error', e));
+}
+
+export const seedUser = async () => {
+  try {
+    await main();
+    await prisma.$disconnect();
+  } catch (e) {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
+};

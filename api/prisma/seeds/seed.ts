@@ -1,22 +1,32 @@
-import { PrismaClient, Role } from '@prisma/client';
-import { users } from './user.seed';
+import { PrismaClient } from '@prisma/client';
+import { seedUser } from './user.seed';
+import { seedCategory } from './category.seed';
+import { seedArticle } from './article.seed';
+import { seedLike } from './like.seed';
+import { seedComment } from './comment.seed';
 
 const prisma = new PrismaClient();
 
-function catchErrors(e: Error, name: string) {
-  console.error(`[SEED] Failed to create ${name} records`, e);
-  prisma.$disconnect();
-  process.exit(1);
+const deleteCategory = prisma.category.deleteMany();
+const deleteArticle = prisma.article.deleteMany();
+const deleteComment = prisma.comment.deleteMany();
+const deleteLike = prisma.like.deleteMany();
+const deleteUser = prisma.user.deleteMany();
+
+async function launch() {
+  await prisma.$transaction([
+    deleteLike,
+    deleteComment,
+    deleteArticle,
+    deleteCategory,
+    deleteUser,
+  ]);
+
+  await seedUser();
+  await seedCategory();
+  await seedArticle();
+  await seedComment();
+  await seedLike();
 }
 
-function catchSuccess(name: string) {
-  console.info(`[SEED] Succussfully create ${name} records`);
-}
-
-async function seedUser() {
-  return Promise.all(users.map((n) => prisma.user.upsert(n)))
-    .then(async () => catchSuccess('user'))
-    .catch((e) => catchErrors(e, 'user'));
-}
-
-seedUser();
+launch();
