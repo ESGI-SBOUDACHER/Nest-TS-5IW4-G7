@@ -31,4 +31,10 @@ export class UsersService {
 
     return users;
   }
+
+  async getUser(params: { where: { email: User['email'] } }) {
+    const { where } = params;
+    const user = await this.repository.getUser({ where });
+    return user;
+  }
 }
