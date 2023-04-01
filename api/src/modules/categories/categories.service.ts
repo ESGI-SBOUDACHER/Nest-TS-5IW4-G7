@@ -18,14 +18,27 @@ export class CategoriesService {
     return category;
   }
 
-  //   async getCategories() {
-  //     const categories = await this.repository.getCategories({});
-  //     return categories;
-  //   }
+  async getCategory(params: { name?: Category['name']; id?: Category['id'] }) {
+    const { name, id } = params;
+    const category = await this.repository.getCategory({
+      where: { name, id },
+    });
+    return category;
+  }
 
-  async getCategory(params: { where: { name: Category['name'] } }) {
-    const { where } = params;
-    const category = await this.repository.getCategory({ where });
+  async getCategories() {
+    const categories = await this.repository.getCategories({});
+    return categories;
+  }
+
+  async deleteCategory(params: {
+    name?: Category['name'];
+    id?: Category['id'];
+  }) {
+    const { name, id } = params;
+    const category = await this.repository.deleteCategory({
+      where: { name, id },
+    });
     return category;
   }
 
