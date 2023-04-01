@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import { createCategoryDto, deleteCategoryDto } from './categories.dto';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
@@ -25,13 +26,13 @@ export class CategoriesController {
 
   @Version('1')
   @Post('add')
-  createCategory(@Body() body: { name: string }) {
+  createCategory(@Body() body: createCategoryDto) {
     return this.categoriesService.createCategory(body);
   }
 
   @Version('1')
   @Post('delete')
-  deleteCategory(@Body() body: { name: string; id: number }) {
+  deleteCategory(@Body() body: deleteCategoryDto) {
     return this.categoriesService.deleteCategory(body);
   }
 }
