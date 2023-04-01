@@ -17,7 +17,7 @@ export class AuthService {
       return UnauthorizedException;
     }
 
-    const isPasswordCorrect = bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return UnauthorizedException;
     }
