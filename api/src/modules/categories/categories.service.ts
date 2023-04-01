@@ -42,15 +42,12 @@ export class CategoriesService {
     return category;
   }
 
-  //   async updateCategory(params: {
-  //     where: { name: Category['name'] };
-  //     data: { name: Category['name'] };
-  //   }) {
-  //     const { where, data } = params;
-  //     const category = await this.repository.updateCategory({
-  //       where,
-  //       data,
-  //     });
-  //     return category;
-  //   }
+  async updaetCategory(params: { id: Category['id']; name: Category['name'] }) {
+    const { id, name } = params;
+    const category = await this.repository.updateCategory({
+      where: { id },
+      data: { name },
+    });
+    return category;
+  }
 }

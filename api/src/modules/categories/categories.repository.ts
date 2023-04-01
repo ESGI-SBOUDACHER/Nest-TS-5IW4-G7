@@ -43,4 +43,15 @@ export class CategoriesRepository {
     const { where } = params;
     return this.prisma.category.delete({ where });
   }
+
+  async updateCategory(params: {
+    where: Prisma.CategoryWhereUniqueInput;
+    data: Prisma.CategoryCreateInput;
+  }): Promise<Category> {
+    const { where, data } = params;
+    return this.prisma.category.update({
+      where,
+      data,
+    });
+  }
 }
