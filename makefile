@@ -13,3 +13,5 @@ restart:
 migrate:
 	docker compose exec api npx prisma migrate dev
 
+seed:
+	docker compose exec api npm run seed
