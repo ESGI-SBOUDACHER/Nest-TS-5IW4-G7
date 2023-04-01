@@ -5,7 +5,6 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(compression());
 
   const config = new DocumentBuilder()
     .setTitle('Blog API Docs')
@@ -15,6 +14,10 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  app.enableCors();
+
+  app.use(compression());
 
   await app.listen(3000);
 }
