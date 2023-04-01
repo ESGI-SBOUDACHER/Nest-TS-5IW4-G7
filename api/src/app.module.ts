@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ArticlesModule } from './modules/articles/articles.module';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './modules/auth/auth.module';
