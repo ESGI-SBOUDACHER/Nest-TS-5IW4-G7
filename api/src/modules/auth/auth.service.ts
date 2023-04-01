@@ -35,13 +35,8 @@ export class AuthService {
     }
 
     const newUser = await this.userService.createUser({ email, password });
-    const payload = {
-      email: newUser.email,
-      id: newUser.id,
-      role: newUser.role,
-    };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    const { password: newPassword, ...userData } = newUser;
+
+    return userData;
   }
 }
