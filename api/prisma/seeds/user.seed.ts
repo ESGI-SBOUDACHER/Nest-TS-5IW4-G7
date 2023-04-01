@@ -1,8 +1,7 @@
 import { PrismaClient, Role } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+import { hashPassword } from '@api/common/utils/auth.utils';
 
-const saltOrRounds = 10;
-const passwordHash = async () => await bcrypt.hash('password', saltOrRounds);
+const passwordHash = hashPassword('password');
 
 const prisma = new PrismaClient();
 
@@ -14,7 +13,7 @@ async function main() {
           email: 'oceane@user.fr',
           firstname: 'Oceane',
           role: Role.ADMIN,
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
           lastname: 'User',
@@ -24,7 +23,7 @@ async function main() {
           firstname: 'Oceane',
           role: Role.USER,
           lastname: 'Admin',
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
         },
@@ -32,7 +31,7 @@ async function main() {
           email: 'sylvain@user.fr',
           firstname: 'Sylvain',
           role: Role.ADMIN,
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
           lastname: 'User',
@@ -42,7 +41,7 @@ async function main() {
           firstname: 'Sylvain',
           role: Role.USER,
           lastname: 'Admin',
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
         },
@@ -50,7 +49,7 @@ async function main() {
           email: 'romain@user.fr',
           firstname: 'Romain',
           role: Role.ADMIN,
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
           lastname: 'User',
@@ -60,7 +59,7 @@ async function main() {
           firstname: 'Romain',
           role: Role.USER,
           lastname: 'Admin',
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
         },
@@ -68,7 +67,7 @@ async function main() {
           email: 'coraline@user.fr',
           firstname: 'Coraline',
           role: Role.ADMIN,
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
           lastname: 'User',
@@ -78,7 +77,7 @@ async function main() {
           firstname: 'Coraline',
           role: Role.USER,
           lastname: 'Admin',
-          password: await passwordHash().then((hash) => {
+          password: await passwordHash.then((hash) => {
             return hash;
           }),
         },
