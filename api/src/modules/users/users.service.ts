@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -9,15 +10,18 @@ export class UsersService {
   async createUser(params: {
     email: User['email'];
     password: User['password'];
-    firstname: User['firstname'];
-    lastname: User['lastname'];
+    firstname?: User['firstname'];
+    lastname?: User['lastname'];
   }) {
     const { email, password, firstname, lastname } = params;
+
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
     const user = await this.repository.createUser({
       data: {
         email,
-        password,
+        password: hashedPassword,
         firstname,
         lastname,
       },
@@ -28,7 +32,6 @@ export class UsersService {
 
   async getUsers() {
     const users = await this.repository.getUsers({});
-
     return users;
   }
 
