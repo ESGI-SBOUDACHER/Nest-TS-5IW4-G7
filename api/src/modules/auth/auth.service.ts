@@ -15,7 +15,7 @@ export class AuthService {
     if (user && user.password === password) {
       const payload = { email: user.email, id: user.id, role: user.role };
       return {
-        token: await this.jwtService.signAsync(payload),
+        access_token: await this.jwtService.signAsync(payload),
       };
     }
 
