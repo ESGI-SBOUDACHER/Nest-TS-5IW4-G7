@@ -13,26 +13,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // HELPERS
-function getUserByEmail(email: string) {
-  return prisma.user
-    .findFirst({
-      select: { id: true },
-      where: { email: email },
-    })
-    .then((user) => {
-      return user.id;
-    });
+async function getUserByEmail(email: string) {
+  const user = await prisma.user.findFirst({
+    select: { id: true },
+    where: { email: email },
+  });
+  return user.id;
 }
 
-function getCategoryByName(name: string) {
-  return prisma.category
-    .findFirst({
-      select: { id: true },
-      where: { name: name },
-    })
-    .then((category) => {
-      return category.id;
-    });
+async function getCategoryByName(name: string) {
+  const category = await prisma.category.findFirst({
+    select: { id: true },
+    where: { name: name },
+  });
+  return category.id;
 }
 
 // MAIN
