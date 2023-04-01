@@ -132,7 +132,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"pouet@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -148,6 +148,34 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
 							]
 						}
 					},
