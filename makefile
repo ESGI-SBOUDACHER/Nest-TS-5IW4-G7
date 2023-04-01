@@ -18,3 +18,6 @@ migrate:
 
 seed:
 	docker compose exec api npm run seed
+
+di:
+	docker compose exec api npm install
