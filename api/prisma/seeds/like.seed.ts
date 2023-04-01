@@ -9,26 +9,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // HELPERS
-function getUserByEmail(email: string) {
-  return prisma.user
-    .findFirst({
-      select: { id: true },
-      where: { email: email },
-    })
-    .then((user) => {
-      return user.id;
-    });
+async function getUserByEmail(email: string) {
+  const user = await prisma.user.findFirst({
+    select: { id: true },
+    where: { email: email },
+  });
+  return user.id;
 }
 
-function getArticleByTitle(name: string) {
-  return prisma.article
-    .findFirst({
-      select: { id: true },
-      where: { title: name },
-    })
-    .then((article) => {
-      return article.id;
-    });
+async function getArticleByTitle(name: string) {
+  const article = await prisma.article.findFirst({
+    select: { id: true },
+    where: { title: name },
+  });
+  return article.id;
 }
 
 // MAIN
