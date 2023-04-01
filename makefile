@@ -7,6 +7,9 @@ stop:
 down:
 	docker compose down
 
+build:
+	docker compose build --pull --no-cache
+
 restart:
 	docker compose restart
 
