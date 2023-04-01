@@ -12,7 +12,7 @@ export class CategoriesController {
   }
 
   @Version('1')
-  @Get('getCategory')
+  @Get('get')
   getCategory(
     @Body()
     data: {
