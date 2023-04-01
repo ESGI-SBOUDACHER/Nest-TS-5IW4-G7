@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ConfigModule.forRoot()],
+  imports: [AuthModule, UsersModule, CategoriesModule, ConfigModule.forRoot()],
   controllers: [],
   providers: [],
 })
