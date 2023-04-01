@@ -26,6 +26,7 @@ make migrate
 
 ## How to use
 
-- Go to http://localhost:3000 to interact with the API
-- Go to http://localhost:8080 to interact with the database with adminer
+- Go to <http://localhost:3000> to interact with the API
+- Go to <http://localhost:8080> to interact with the database with adminer
 - You can import `postman-requests.json` file into Postman to execute and test the routes (dont forget to update the access_token variable in Postman in order to successfuly use the guarded routes)
+- Alternativly go to <http://localhost:3000/api> in order to consult the API docs with Swagger.
