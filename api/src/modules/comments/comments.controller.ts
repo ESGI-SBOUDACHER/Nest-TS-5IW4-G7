@@ -31,6 +31,11 @@ export class CommentsController {
         return this.commentService.getComment({ where: { id: id } });
     }
    
+    @Post()
+    @HttpCode(201)
+    public createComment(@Body() data: CreateCommentsDto) {
+        return this.commentService.createComment({ data });
+    }
 
 
 }

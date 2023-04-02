@@ -26,4 +26,10 @@ export class CommentsRepository {
       return this.prisma.comment.findUnique({ where });
     }
 
+    async createComment(params: {
+      data: Prisma.CommentCreateInput;
+    }): Promise<Comment> {
+      const { data } = params;
+      return this.prisma.comment.create({ data });
+    }
 }

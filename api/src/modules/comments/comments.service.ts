@@ -20,4 +20,24 @@ export class CommentsService {
         return comment;
     }
 
+    async createComment(params: { data: CreateCommentsDto  }) {
+        const { content, authorId,  articleId} = params.data;
+        const comment = await this.commentRepository.createComment({
+            data: {
+                content,
+                author:{
+                    connect:{
+                        id: authorId
+                    },
+                },
+                article:{
+                    connect:{
+                        id: articleId
+                    },
+                },
+            },
+        });
+        return comment;
+    }
+
 }
