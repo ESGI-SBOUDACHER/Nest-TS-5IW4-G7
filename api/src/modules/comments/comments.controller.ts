@@ -25,6 +25,11 @@ export class CommentsController {
         return this.commentService.getComments();
     }
 
+    @Get(':id')
+    @HttpCode(200)
+    public getComment(@Param('id', ParseIntPipe) id: number) {
+        return this.commentService.getComment({ where: { id: id } });
+    }
    
 
 

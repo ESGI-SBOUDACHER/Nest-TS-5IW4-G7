@@ -19,5 +19,11 @@ export class CommentsRepository {
       return this.prisma.comment.findMany({ skip, take, cursor, where, orderBy });
     }
 
+    async getComment(params: {
+      where: Prisma.CommentWhereUniqueInput;
+    }): Promise<Comment> {
+      const { where } = params;
+      return this.prisma.comment.findUnique({ where });
+    }
 
 }
