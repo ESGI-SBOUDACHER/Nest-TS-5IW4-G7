@@ -40,4 +40,9 @@ export class CommentsService {
         return comment;
     }
 
+    async deleteComment(params: { where: { id: Comment['id'] } }) {
+        const { where } = params;
+        const comment = await this.commentRepository.deleteComment({ where });
+        return comment;
+    }
 }

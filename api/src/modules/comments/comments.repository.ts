@@ -32,4 +32,11 @@ export class CommentsRepository {
       const { data } = params;
       return this.prisma.comment.create({ data });
     }
+
+    async deleteComment(params: {
+      where: Prisma.CommentWhereUniqueInput;
+    }): Promise<Comment> {
+      const { where } = params;
+      return this.prisma.comment.delete({ where });
+    }
 }

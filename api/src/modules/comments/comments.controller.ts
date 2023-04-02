@@ -37,5 +37,10 @@ export class CommentsController {
         return this.commentService.createComment({ data });
     }
 
+    @Delete(':id')
+    @HttpCode(200)
+    public deleteComment(@Param('id', ParseIntPipe) id: number) {
+        return this.commentService.deleteComment({ where: { id: id } });
+    }
 
 }
