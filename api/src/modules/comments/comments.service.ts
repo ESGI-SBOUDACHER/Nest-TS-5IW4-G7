@@ -45,4 +45,28 @@ export class CommentsService {
         const comment = await this.commentRepository.deleteComment({ where });
         return comment;
     }
+
+    async updateComment(params: { where: { id: Comment['id'] }; data: UpdateCommentsDto }) {
+        const { where } = params;
+        const { content, authorId,  articleId} = params.data;
+        const comment = await this.commentRepository.updateComment({
+            where,
+            data: {
+                content,
+                author: {
+                    connect: {
+                        id: authorId
+                    },
+                },
+                article: {
+                    connect: {
+                        id: articleId
+                    },
+                },
+            },
+        });
+        return comment;
+    }
+
+    //END ADMIN SECTION
 }

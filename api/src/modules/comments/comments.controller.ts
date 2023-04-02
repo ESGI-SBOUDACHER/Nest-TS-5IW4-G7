@@ -43,4 +43,12 @@ export class CommentsController {
         return this.commentService.deleteComment({ where: { id: id } });
     }
 
+    @Patch(':id')
+    @HttpCode(200)
+    public updateComment(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateCommentsDto) {
+        return this.commentService.updateComment({ where: { id: id }, data });
+    }
+
+    //END ADMIN SECTION
+
 }

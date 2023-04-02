@@ -39,4 +39,14 @@ export class CommentsRepository {
       const { where } = params;
       return this.prisma.comment.delete({ where });
     }
+
+    async updateComment(params: {
+      where: Prisma.CommentWhereUniqueInput;
+      data: Prisma.CommentUpdateInput;
+    }): Promise<Comment> {
+      const { where, data } = params;
+      return this.prisma.comment.update({ where, data });
+    }
+
+    //END ADMIN SECTION
 }
