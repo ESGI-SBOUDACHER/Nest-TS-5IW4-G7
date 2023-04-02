@@ -4,12 +4,15 @@ import {
     Get,
     Post,
     HttpCode,
+    Request,
     Header,
     Param,
     ParseIntPipe,
     Delete,
+    UseGuards,
     Patch,
 } from '@nestjs/common';
+import { AuthGuard } from '@api/modules/auth/auth.guard';
 import { CommentsService } from './comments.service';
 import { CreateCommentsDto, UpdateCommentsDto } from './comments.dto';
 
@@ -32,9 +35,10 @@ export class CommentsController {
     }
    
     @Post()
+    @UseGuards(AuthGuard)
     @HttpCode(201)
-    public createComment(@Body() data: CreateCommentsDto) {
-        return this.commentService.createComment({ data });
+    public createComment(@Body() data: CreateCommentsDto, @Request() req: any) {
+        return this.commentService.createComment({ data}, req);
     }
 
     @Delete(':id')

@@ -12,6 +12,7 @@ import { CommentsModule } from './modules/comments/comments.module';
     UsersModule,
     CategoriesModule,
     CommentsModule,
+    ArticlesModule,
     ConfigModule.forRoot(),
     ThrottlerModule.forRoot({
       ttl: 60,

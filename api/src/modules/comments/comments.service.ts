@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Request } from '@nestjs/common';
 import { CommentsRepository } from './comments.repository';
 import { CreateCommentsDto, UpdateCommentsDto } from './comments.dto';
 import { Comment } from '@prisma/client';
-
+import { ArticlesRepository } from '@api/modules/articles/articles.repository';
 @Injectable()
 export class CommentsService {
-    
-    constructor(private readonly commentRepository: CommentsRepository) {}
+
+    constructor(
+        private readonly commentRepository: CommentsRepository,
+        private readonly articleRepository:ArticlesRepository,
+    ) { }
 
     //ADMIN SECTION
     async getComments() {
@@ -20,24 +23,35 @@ export class CommentsService {
         return comment;
     }
 
-    async createComment(params: { data: CreateCommentsDto  }) {
-        const { content, authorId,  articleId} = params.data;
-        const comment = await this.commentRepository.createComment({
-            data: {
-                content,
-                author:{
-                    connect:{
-                        id: authorId
+    async createComment(params: { data: CreateCommentsDto }, req : any) {
+        const { content, authorId, articleId } = params.data;
+        const article = await this.articleRepository.getArticle( {where : {id:articleId}} );
+        if (article.isPublished) {
+            if (authorId) {
+                if (req.user.role == "USER") {
+                    return "You are magicien"
+                }
+            }
+            const comment = await this.commentRepository.createComment({
+                data: {
+                    content,
+                    author: {
+                        connect: {
+                            id: authorId ? authorId : req.user.id
+                        },
+                    },
+                    article: {
+                        connect: {
+                            id: articleId
+                        },
                     },
                 },
-                article:{
-                    connect:{
-                        id: articleId
-                    },
-                },
-            },
-        });
-        return comment;
+            });
+            return comment;
+        } else {
+            return "Article not published"
+        }
+
     }
 
     async deleteComment(params: { where: { id: Comment['id'] } }) {
@@ -48,7 +62,7 @@ export class CommentsService {
 
     async updateComment(params: { where: { id: Comment['id'] }; data: UpdateCommentsDto }) {
         const { where } = params;
-        const { content, authorId,  articleId} = params.data;
+        const { content, authorId, articleId } = params.data;
         const comment = await this.commentRepository.updateComment({
             where,
             data: {
@@ -69,4 +83,6 @@ export class CommentsService {
     }
 
     //END ADMIN SECTION
+
+
 }

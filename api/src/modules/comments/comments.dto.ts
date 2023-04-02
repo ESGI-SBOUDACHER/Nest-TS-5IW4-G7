@@ -1,6 +1,6 @@
 export type CreateCommentsDto = {
     content: string;
-    authorId: number;
+    authorId?: number;
     articleId: number;
 };
 
