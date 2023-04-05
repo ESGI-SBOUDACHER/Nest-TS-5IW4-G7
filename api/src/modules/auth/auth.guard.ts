@@ -1,4 +1,4 @@
-import { IS_PUBLIC_KEY } from '@api/common/decorators/public';
+import { IS_PUBLIC_KEY } from '@api/common/decorators/public.decorator';
 import {
   CanActivate,
   ExecutionContext,

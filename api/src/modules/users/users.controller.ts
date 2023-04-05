@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import { Controller, Get, Version } from '@nestjs/common';
 import { UsersService } from './users.service';
 
+// @Roles(Role.ADMIN)
+// @UseGuards(RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
@@ -9,19 +11,5 @@ export class UsersController {
   @Get()
   getUsers() {
     return this.userService.getUsers();
-  }
-
-  @Version('1')
-  @Post()
-  createUser(
-    @Body()
-    data: {
-      email: string;
-      firstname: string;
-      lastname: string;
-      password: string;
-    },
-  ) {
-    return this.userService.createUser(data);
   }
 }
