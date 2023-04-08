@@ -52,19 +52,26 @@ export class ArticlesService {
   }) {
     const { where } = params;
     const { title, content, categoryId, isPublished } = params.data;
-    const article = await this.repository.updateArticle({
+
+    const updatedArticle = {
       where,
       data: {
         title,
         content,
-        category: {
-          connect: {
-            id: categoryId ?? undefined,
-          },
-        },
         isPublished,
       },
-    });
+    };
+
+    // If category is provided
+    if (categoryId) {
+      updatedArticle.data['category'] = {
+        connect: {
+          id: categoryId,
+        },
+      };
+    }
+    const article = await this.repository.updateArticle(updatedArticle);
+
     return article;
   }
 }
