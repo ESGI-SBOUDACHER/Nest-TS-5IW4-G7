@@ -21,3 +21,5 @@ seed:
 
 di:
 	docker compose exec api npm install
+
+turboinstall: build start migrate seed
