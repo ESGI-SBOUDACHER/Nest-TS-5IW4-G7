@@ -10,9 +10,27 @@ async function main() {
     .createMany({
       data: [
         {
+          email: 'user@user.fr',
+          firstname: 'Jean Michel',
+          lastname: 'Patapouet',
+          roles: [Role.USER],
+          password: await passwordHash.then((hash) => {
+            return hash;
+          }),
+        },
+        {
+          email: 'admin@admin.fr',
+          firstname: 'Omega Michelle',
+          lastname: 'Patapouet',
+          roles: [Role.ADMIN, Role.USER],
+          password: await passwordHash.then((hash) => {
+            return hash;
+          }),
+        },
+        {
           email: 'oceane@user.fr',
           firstname: 'Oceane',
-          roles: [Role.ADMIN],
+          roles: [Role.ADMIN, Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -30,7 +48,7 @@ async function main() {
         {
           email: 'sylvain@user.fr',
           firstname: 'Sylvain',
-          roles: [Role.ADMIN],
+          roles: [Role.ADMIN, Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -48,7 +66,7 @@ async function main() {
         {
           email: 'romain@user.fr',
           firstname: 'Romain',
-          roles: [Role.ADMIN],
+          roles: [Role.ADMIN, Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -66,7 +84,7 @@ async function main() {
         {
           email: 'coraline@user.fr',
           firstname: 'Coraline',
-          roles: [Role.ADMIN],
+          roles: [Role.ADMIN, Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -83,7 +101,7 @@ async function main() {
         },
       ],
     })
-    .then(() => console.log('[SEED] successfully create users records'))
+    .then(() => console.log('✅ [SEED] successfully create users records'))
     .catch((e) => console.log('error', e));
 }
 
