@@ -33,7 +33,7 @@ export class CommentsController {
     public getComment(@Param('id', ParseIntPipe) id: number) {
         return this.commentService.getComment({ where: { id: id } });
     }
-   
+
     @Post()
     @UseGuards(AuthGuard)
     @HttpCode(201)
@@ -42,9 +42,10 @@ export class CommentsController {
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard)
     @HttpCode(200)
-    public deleteComment(@Param('id', ParseIntPipe) id: number) {
-        return this.commentService.deleteComment({ where: { id: id } });
+    public deleteComment(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+        return this.commentService.deleteComment({ where: { id: id } },req);
     }
 
     @Patch(':id')
