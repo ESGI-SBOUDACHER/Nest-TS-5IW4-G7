@@ -12,6 +12,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
     CategoriesModule,
+    ArticlesModule,
     ConfigModule.forRoot(),
     ThrottlerModule.forRoot({
       ttl: 60,
