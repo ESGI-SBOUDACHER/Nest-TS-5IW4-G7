@@ -1,13 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { CommentsRepository } from './comments.repository';
 import { CreateCommentsDto, UpdateCommentsDto } from './comments.dto';
 import { Comment } from '@prisma/client';
 import { ArticlesRepository } from '@api/modules/articles/articles.repository';
-@Injectable()
+import { Request } from 'express';
+import { REQUEST } from '@nestjs/core';
+
+@Injectable({ scope: Scope.REQUEST })
 export class CommentsService {
   constructor(
     private readonly commentRepository: CommentsRepository,
     private readonly articleRepository: ArticlesRepository,
+    @Inject(REQUEST) private readonly request: any, // A voir pour request sans le any
   ) {}
 
   //ADMIN SECTION
@@ -22,14 +26,14 @@ export class CommentsService {
     return comment;
   }
 
-  async createComment(params: { data: CreateCommentsDto }, req: any) {
+  async createComment(params: { data: CreateCommentsDto }) {
     const { content, authorId, articleId } = params.data;
     const article = await this.articleRepository.getArticle({
       where: { id: articleId },
     });
     if (article.isPublished) {
       if (authorId) {
-        if (req.user.role == 'USER') {
+        if (this.request.user.role == 'USER') {
           return 'You are magicien';
         }
       }
@@ -38,7 +42,7 @@ export class CommentsService {
           content,
           author: {
             connect: {
-              id: authorId ? authorId : req.user.id,
+              id: authorId ? authorId : this.request.user.id,
             },
           },
           article: {
@@ -54,10 +58,14 @@ export class CommentsService {
     }
   }
 
-  async deleteComment(params: { where: { id: Comment['id'] } }, req: any) {
+  async deleteComment(params: { where: { id: Comment['id'] } }) {
+    // Voir pour le any
     const { where } = params;
     const commentActu = await this.commentRepository.getComment({ where });
-    if (commentActu.authorId === req.user.id || req.user.role == 'ADMIN') {
+    if (
+      commentActu?.authorId === this.request.user.id ||
+      this.request.user.role == 'ADMIN'
+    ) {
       const comment = await this.commentRepository.deleteComment({ where });
       return comment;
     } else {

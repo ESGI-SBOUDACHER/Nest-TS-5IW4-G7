@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { UsersModule } from './modules/users/users.module';
 import { CommentsModule } from './modules/comments/comments.module';
+import { ArticlesModule } from './modules/articles/articles.module';
 @Module({
   imports: [
     AuthModule,
