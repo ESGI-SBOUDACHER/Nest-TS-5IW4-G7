@@ -13,12 +13,7 @@ export class RolesGuard implements CanActivate {
       return false;
     }
     const request = context.switchToHttp().getRequest();
-    console.log(
-      '🚀 ~ file: roles.guard.ts:16 ~ RolesGuard ~ canActivate ~ request:',
-      request.user,
-    );
-    // TODO : Peut-être mettre roles en tableau dans la bdd, sinon l'admin est pas considéré comme user
-    const userRoles = request.headers?.role?.split(',');
+    const userRoles = request.user.roles;
     return this.validateRoles(roles, userRoles);
   }
 
