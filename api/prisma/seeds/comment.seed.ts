@@ -70,7 +70,7 @@ async function main() {
 export const seedComment = async () => {
   try {
     await main();
-    console.log('[SEED] successfully create comments records');
+    console.log('✅ Comment records created successfully');
     await prisma.$disconnect();
   } catch (e) {
     console.error(e);

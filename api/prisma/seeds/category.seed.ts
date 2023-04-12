@@ -17,7 +17,7 @@ const prisma = new PrismaClient();
 async function main() {
   return prisma.category
     .createMany({ data: categories })
-    .then(() => console.log('[SEED] successfully create categories records'))
+    .then(() => console.log('✅ Categorie records created successfully'))
     .catch((e) => console.log('error', e));
 }
 

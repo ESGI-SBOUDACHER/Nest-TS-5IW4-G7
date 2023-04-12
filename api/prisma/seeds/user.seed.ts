@@ -101,7 +101,7 @@ async function main() {
         },
       ],
     })
-    .then(() => console.log('✅ [SEED] successfully create users records'))
+    .then(() => console.log('✅ User records created successfully'))
     .catch((e) => console.log('error', e));
 }
 

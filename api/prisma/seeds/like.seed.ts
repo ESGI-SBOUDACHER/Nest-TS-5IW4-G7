@@ -68,7 +68,7 @@ async function main() {
 export const seedLike = async () => {
   try {
     await main();
-    console.log('[SEED] successfully create likes records');
+    console.log('✅ Like records created successfully');
     await prisma.$disconnect();
   } catch (e) {
     console.error(e);

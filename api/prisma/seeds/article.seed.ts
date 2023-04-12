@@ -77,7 +77,7 @@ export const seedArticle = async () => {
   try {
     await main();
     await prisma.$disconnect();
-    console.log('[SEED] successfully create articles records');
+    console.log('✅ Article records created successfully');
   } catch (e) {
     console.error(e);
     await prisma.$disconnect();
