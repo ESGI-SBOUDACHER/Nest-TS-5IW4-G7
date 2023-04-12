@@ -15,7 +15,7 @@ const categories: Prisma.CategoryCreateInput[] = [
 const prisma = new PrismaClient();
 
 async function main() {
-  prisma.category
+  return prisma.category
     .createMany({ data: categories })
     .then(() => console.log('[SEED] successfully create categories records'))
     .catch((e) => console.log('error', e));
