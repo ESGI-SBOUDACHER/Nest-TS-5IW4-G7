@@ -1,28 +1,33 @@
+import { Roles } from '@api/common/decorators/roles.decorator';
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  Post,
   HttpCode,
-  Header,
   Param,
   ParseIntPipe,
-  Delete,
   Patch,
+  Post,
+  Version,
 } from '@nestjs/common';
-import { ArticlesService } from './articles.service';
+import { Role } from '@prisma/client';
 import { CreateArticlesDto, UpdateArticlesDto } from './articles.dto';
+import { ArticlesService } from './articles.service';
 
+@Roles(Role.USER)
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articleService: ArticlesService) {}
 
+  @Version('1')
   @Get()
   @HttpCode(200)
   getArticles() {
     return this.articleService.getArticles();
   }
 
+  @Version('1')
   @Get(':id')
   @HttpCode(200)
   public getArticle(@Param('id', ParseIntPipe) id: number) {
@@ -31,6 +36,8 @@ export class ArticlesController {
     }
   }
 
+  @Version('1')
+  @Roles(Role.ADMIN)
   @Post()
   @HttpCode(201)
   public createArticle(
@@ -40,12 +47,16 @@ export class ArticlesController {
     return this.articleService.createArticle({ data });
   }
 
+  @Version('1')
+  @Roles(Role.ADMIN)
   @Delete(':id')
   @HttpCode(200)
   public deleteArticle(@Param('id', ParseIntPipe) id: number) {
     return this.articleService.deleteArticle({ where: { id: id } });
   }
 
+  @Version('1')
+  @Roles(Role.ADMIN)
   @Patch(':id')
   @HttpCode(200)
   public updateArticle(
