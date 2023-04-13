@@ -1,11 +1,22 @@
 import { Roles } from '@api/common/decorators/roles.decorator';
-import { Body, Controller, Get, Patch, Post, Version } from '@nestjs/common';
+import { RolesGuard } from '@api/common/guards/roles.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+  Version,
+} from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { createCategoryDto, deleteCategoryDto } from './categories.dto';
 import { CategoriesCreatePipe } from './categories.pipe';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
+@Roles(Role.USER)
+@UseGuards(RolesGuard)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
