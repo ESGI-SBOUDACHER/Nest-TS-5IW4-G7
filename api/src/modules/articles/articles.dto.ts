@@ -1,14 +1,32 @@
-export type CreateArticlesDto = {
-  title: string;
-  content: string;
-  isPublished?: boolean;
-  authorId: number;
-  categoryId: number;
-};
+import { IsBoolean, IsInt, IsString } from 'class-validator';
 
-export type UpdateArticlesDto = {
+export class CreateArticlesDto {
+  @IsString()
   title: string;
+
+  @IsString()
   content: string;
+
+  @IsBoolean()
   isPublished?: boolean;
+
+  @IsInt()
+  authorId: number;
+
+  @IsInt()
   categoryId: number;
-};
+}
+
+export class UpdateArticlesDto {
+  @IsString()
+  title: string;
+
+  @IsString()
+  content: string;
+
+  @IsBoolean()
+  isPublished?: boolean;
+
+  @IsInt()
+  categoryId: number;
+}
