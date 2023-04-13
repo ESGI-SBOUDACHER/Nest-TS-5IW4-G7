@@ -2,21 +2,21 @@ import { Roles } from '@api/common/decorators/roles.decorator';
 import { Body, Controller, Get, Patch, Post, Version } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { createCategoryDto, deleteCategoryDto } from './categories.dto';
+import { CategoriesCreatePipe } from './categories.pipe';
 import { CategoriesService } from './categories.service';
 
-@Roles(Role.USER)
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Version('1')
   @Get()
+  @Version('1')
   getCategories() {
     return this.categoriesService.getCategories();
   }
 
-  @Version('1')
   @Get('get')
+  @Version('1')
   getCategory(
     @Body()
     data: {
@@ -27,23 +27,23 @@ export class CategoriesController {
     return this.categoriesService.getCategory(data);
   }
 
+  @Post('add')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Post('add')
-  createCategory(@Body() body: createCategoryDto) {
+  createCategory(@Body(CategoriesCreatePipe) body: createCategoryDto) {
     return this.categoriesService.createCategory(body);
   }
 
+  @Post('delete')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Post('delete')
   deleteCategory(@Body() body: deleteCategoryDto) {
     return this.categoriesService.deleteCategory(body);
   }
 
+  @Patch('update')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Patch('update')
   updateCategory(
     @Body()
     data: {
