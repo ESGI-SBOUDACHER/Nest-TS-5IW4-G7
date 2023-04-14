@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { createCategoryDto, deleteCategoryDto } from './categories.dto';
-import { CategoriesCreatePipe } from './categories.pipe';
+import { CategoriesCreatePipe, CategoriesUpdatePipe } from './categories.pipe';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
@@ -56,7 +56,7 @@ export class CategoriesController {
   @Roles(Role.ADMIN)
   @Version('1')
   updateCategory(
-    @Body()
+    @Body(CategoriesUpdatePipe)
     data: {
       id: number;
       name: string;
