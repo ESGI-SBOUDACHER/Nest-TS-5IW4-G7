@@ -1,56 +1,60 @@
 import { Roles } from '@api/common/decorators/roles.decorator';
-import { Body, Controller, Get, Patch, Post, Version } from '@nestjs/common';
+import { RolesGuard } from '@api/common/guards/roles.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+  Version,
+} from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { createCategoryDto, deleteCategoryDto } from './categories.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
+import {
+  CategoriesCreateDto,
+  CategoriesDeleteDto,
+  CategoriesGetDto,
+  CategoriesUpdateDto,
+} from './categories.schema';
 import { CategoriesService } from './categories.service';
 
-@Roles(Role.USER)
 @Controller('categories')
+@Roles(Role.USER)
+@UseGuards(RolesGuard)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Version('1')
   @Get()
+  @Version('1')
   getCategories() {
     return this.categoriesService.getCategories();
   }
 
-  @Version('1')
   @Get('get')
-  getCategory(
-    @Body()
-    data: {
-      id: number;
-      name: string;
-    },
-  ) {
+  @Version('1')
+  getCategory(@Body(ZodValidationPipe) data: CategoriesGetDto) {
     return this.categoriesService.getCategory(data);
   }
 
+  @Post('add')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Post('add')
-  createCategory(@Body() body: createCategoryDto) {
+  createCategory(@Body(ZodValidationPipe) body: CategoriesCreateDto) {
     return this.categoriesService.createCategory(body);
   }
 
+  @Post('delete')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Post('delete')
-  deleteCategory(@Body() body: deleteCategoryDto) {
+  deleteCategory(@Body(ZodValidationPipe) body: CategoriesDeleteDto) {
     return this.categoriesService.deleteCategory(body);
   }
 
+  @Patch('update')
   @Roles(Role.ADMIN)
   @Version('1')
-  @Patch('update')
-  updateCategory(
-    @Body()
-    data: {
-      id: number;
-      name: string;
-    },
-  ) {
+  updateCategory(@Body(ZodValidationPipe) data: CategoriesUpdateDto) {
     return this.categoriesService.updaetCategory(data);
   }
 }

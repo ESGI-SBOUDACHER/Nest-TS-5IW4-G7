@@ -30,7 +30,7 @@ async function main() {
         {
           email: 'oceane@user.fr',
           firstname: 'Oceane',
-          roles: [Role.ADMIN, Role.USER],
+          roles: [Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -39,7 +39,7 @@ async function main() {
         {
           email: 'oceane@admin.fr',
           firstname: 'Oceane',
-          roles: [Role.USER],
+          roles: [Role.ADMIN, Role.USER],
           lastname: 'Admin',
           password: await passwordHash.then((hash) => {
             return hash;
@@ -48,7 +48,7 @@ async function main() {
         {
           email: 'sylvain@user.fr',
           firstname: 'Sylvain',
-          roles: [Role.ADMIN, Role.USER],
+          roles: [Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -57,7 +57,7 @@ async function main() {
         {
           email: 'sylvain@admin.fr',
           firstname: 'Sylvain',
-          roles: [Role.USER],
+          roles: [Role.ADMIN, Role.USER],
           lastname: 'Admin',
           password: await passwordHash.then((hash) => {
             return hash;
@@ -66,7 +66,7 @@ async function main() {
         {
           email: 'romain@user.fr',
           firstname: 'Romain',
-          roles: [Role.ADMIN, Role.USER],
+          roles: [Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -75,7 +75,7 @@ async function main() {
         {
           email: 'romain@admin.fr',
           firstname: 'Romain',
-          roles: [Role.USER],
+          roles: [Role.ADMIN, Role.USER],
           lastname: 'Admin',
           password: await passwordHash.then((hash) => {
             return hash;
@@ -84,7 +84,7 @@ async function main() {
         {
           email: 'coraline@user.fr',
           firstname: 'Coraline',
-          roles: [Role.ADMIN, Role.USER],
+          roles: [Role.USER],
           password: await passwordHash.then((hash) => {
             return hash;
           }),
@@ -93,7 +93,7 @@ async function main() {
         {
           email: 'coraline@admin.fr',
           firstname: 'Coraline',
-          roles: [Role.USER],
+          roles: [Role.ADMIN, Role.USER],
           lastname: 'Admin',
           password: await passwordHash.then((hash) => {
             return hash;
