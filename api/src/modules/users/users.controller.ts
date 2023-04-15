@@ -1,6 +1,13 @@
 import { Roles } from '@api/common/decorators/roles.decorator';
 import { RolesGuard } from '@api/common/guards/roles.guard';
-import { Controller, Get, UseGuards, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Version,
+} from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { UsersService } from './users.service';
 
@@ -14,5 +21,11 @@ export class UsersController {
   @Get()
   getUsers() {
     return this.userService.getUsers();
+  }
+
+  @Version('1')
+  @Post('delete')
+  deleteUser(@Body() body: { id: number }) {
+    return this.userService.deleteUser(body);
   }
 }

@@ -29,4 +29,10 @@ async function launch() {
   await seedLike();
 }
 
-launch();
+launch()
+  .then(() => {
+    console.log('🌱 Seeds successfully generated');
+  })
+  .catch((e) => {
+    console.error(e);
+  });

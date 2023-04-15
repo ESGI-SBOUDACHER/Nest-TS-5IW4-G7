@@ -1,7 +1,7 @@
+import { hashPassword } from '@api/common/utils/auth';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
-import { hashPassword } from '@api/common/utils/auth';
 
 @Injectable()
 export class UsersService {
@@ -37,6 +37,12 @@ export class UsersService {
   async getUser(params: { where: { email: User['email'] } }) {
     const { where } = params;
     const user = await this.repository.getUser({ where });
+    return user;
+  }
+
+  async deleteUser(params: { id: User['id'] }) {
+    const { id } = params;
+    const user = await this.repository.deleteUser({ where: { id } });
     return user;
   }
 }
