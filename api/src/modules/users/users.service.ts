@@ -34,13 +34,13 @@ export class UsersService {
     return users;
   }
 
-  async getUser(params: { where: { email: User['email'] } }) {
-    const { where } = params;
-    const user = await this.repository.getUser({ where });
+  async getUser(params: { id?: User['id'] }) {
+    const { id } = params;
+    const user = await this.repository.getUser({ where: { id } });
     return user;
   }
 
-  async deleteUser(params: { id: User['id'] }) {
+  async deleteUser(params: { id?: User['id'] }) {
     const { id } = params;
     const user = await this.repository.deleteUser({ where: { id } });
     return user;
