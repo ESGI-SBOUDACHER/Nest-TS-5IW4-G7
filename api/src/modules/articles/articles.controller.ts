@@ -24,8 +24,8 @@ export default class ArticlesController {
   constructor(private readonly articleService: ArticlesService) {}
 
   @Get()
-  @Version('1')
   @HttpCode(200)
+  @Version('1')
   getArticles() {
     return this.articleService.getArticles();
   }

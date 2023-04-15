@@ -6,7 +6,7 @@ import { CategoriesRepository } from './categories.repository';
 export class CategoriesService {
   constructor(private repository: CategoriesRepository) {}
 
-  async createCategory(params: { name: Category['name'] }) {
+  async createCategory(params: { name?: Category['name'] }) {
     const { name } = params;
 
     const category = await this.repository.createCategory({
@@ -18,10 +18,10 @@ export class CategoriesService {
     return category;
   }
 
-  async getCategory(params: { name?: Category['name']; id?: Category['id'] }) {
-    const { name, id } = params;
+  async getCategory(params: { id?: Category['id'] }) {
+    const { id } = params;
     const category = await this.repository.getCategory({
-      where: { name, id },
+      where: { id },
     });
     return category;
   }
@@ -42,7 +42,10 @@ export class CategoriesService {
     return category;
   }
 
-  async updaetCategory(params: { id: Category['id']; name: Category['name'] }) {
+  async updaetCategory(params: {
+    id?: Category['id'];
+    name?: Category['name'];
+  }) {
     const { id, name } = params;
     const category = await this.repository.updateCategory({
       where: { id },

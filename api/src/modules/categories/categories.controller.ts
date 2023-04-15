@@ -10,8 +10,13 @@ import {
   Version,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { createCategoryDto, deleteCategoryDto } from './categories.dto';
-import { CategoriesCreatePipe, CategoriesUpdatePipe } from './categories.pipe';
+import { ZodValidationPipe } from 'nestjs-zod';
+import {
+  CategoriesCreateDto,
+  CategoriesDeleteDto,
+  CategoriesGetDto,
+  CategoriesUpdateDto,
+} from './categories.schema';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
@@ -28,40 +33,28 @@ export class CategoriesController {
 
   @Get('get')
   @Version('1')
-  getCategory(
-    @Body()
-    data: {
-      id: number;
-      name: string;
-    },
-  ) {
+  getCategory(@Body(ZodValidationPipe) data: CategoriesGetDto) {
     return this.categoriesService.getCategory(data);
   }
 
   @Post('add')
   @Roles(Role.ADMIN)
   @Version('1')
-  createCategory(@Body(CategoriesCreatePipe) body: createCategoryDto) {
+  createCategory(@Body(ZodValidationPipe) body: CategoriesCreateDto) {
     return this.categoriesService.createCategory(body);
   }
 
   @Post('delete')
   @Roles(Role.ADMIN)
   @Version('1')
-  deleteCategory(@Body() body: deleteCategoryDto) {
+  deleteCategory(@Body(ZodValidationPipe) body: CategoriesDeleteDto) {
     return this.categoriesService.deleteCategory(body);
   }
 
   @Patch('update')
   @Roles(Role.ADMIN)
   @Version('1')
-  updateCategory(
-    @Body(CategoriesUpdatePipe)
-    data: {
-      id: number;
-      name: string;
-    },
-  ) {
+  updateCategory(@Body(ZodValidationPipe) data: CategoriesUpdateDto) {
     return this.categoriesService.updaetCategory(data);
   }
 }
