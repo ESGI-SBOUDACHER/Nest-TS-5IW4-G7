@@ -18,6 +18,26 @@ export class CommentsRepository {
       return this.prisma.comment.findMany({ skip, take, cursor, where, orderBy });
     }
 
+    async getCommentsByArticle(params: {
+      articleId: number;
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.CommentWhereUniqueInput;
+      where?: Prisma.CommentWhereInput;
+      orderBy?: Prisma.CommentOrderByWithRelationInput;
+    }): Promise<Comment[]> {
+      const { articleId, skip, take, cursor, where, orderBy } = params;
+      return this.prisma.comment.findMany({
+        skip,
+        take,
+        cursor,
+        where: {
+          articleId,
+        },
+        orderBy,
+      });
+    }
+
     async getComment(params: {
       where: Prisma.CommentWhereUniqueInput;
     }): Promise<Comment> {

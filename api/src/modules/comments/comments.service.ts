@@ -19,6 +19,19 @@ export class CommentsService {
         return comments;
     }
 
+    async getCommentsByArticle(params: { where: { id: Comment['id'] } }) {
+        const { where } = params;
+        const article = await this.articleRepository.getArticle({
+            where: { id: where.id },
+        });
+        if (article.isPublished) {
+        const comments = await this.commentRepository.getCommentsByArticle({ articleId: where.id });
+        return comments;
+        } else {
+            return 'Article not published';
+        }
+    }
+
     async getComment(params: { where: { id: Comment['id'] } }) {
         const { where } = params;
         const comment = await this.commentRepository.getComment({ where });

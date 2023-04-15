@@ -28,6 +28,13 @@ export class CommentsController {
     return this.commentService.getComments();
   }
 
+  @Get('articles/:idArticle')
+  @Version('1')
+  @HttpCode(200)
+  getCommentsByArticle(@Param('idArticle', ParseIntPipe) id: number) {
+    return this.commentService.getCommentsByArticle({ where: { id: id }});
+  }
+
   @Get(':id')
   @Version('1')
   @HttpCode(200)
