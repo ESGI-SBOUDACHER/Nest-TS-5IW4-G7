@@ -6,6 +6,6 @@ export type CreateCommentsDto = {
 
 export type UpdateCommentsDto = {
     content: string;
-    authorId: number;
+    authorId?: number;
     articleId: number;
 };

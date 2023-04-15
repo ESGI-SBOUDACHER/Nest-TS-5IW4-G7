@@ -7,7 +7,6 @@ import { PrismaService } from 'src/database/prisma.service';
 export class CommentsRepository {
   constructor(private prisma: PrismaService) {}
 
-    //ADMIN SECTION
     async getComments(params: {
       skip?: number;
       take?: number;
@@ -48,5 +47,4 @@ export class CommentsRepository {
       return this.prisma.comment.update({ where, data });
     }
 
-    //END ADMIN SECTION
 }
