@@ -1,4 +1,5 @@
 import { Roles } from '@api/common/decorators/roles.decorator';
+import { RolesGuard } from '@api/common/guards/roles.guard';
 import {
   Body,
   Controller,
@@ -9,37 +10,39 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   Version,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { CreateArticlesDto, UpdateArticlesDto } from './articles.dto';
 import { ArticlesService } from './articles.service';
 
-@Roles(Role.USER)
 @Controller('articles')
-export class ArticlesController {
+@Roles(Role.USER)
+@UseGuards(RolesGuard)
+export default class ArticlesController {
   constructor(private readonly articleService: ArticlesService) {}
 
-  @Version('1')
   @Get()
   @HttpCode(200)
+  @Version('1')
   getArticles() {
     return this.articleService.getArticles();
   }
 
-  @Version('1')
   @Get(':id')
   @HttpCode(200)
+  @Version('1')
   public getArticle(@Param('id', ParseIntPipe) id: number) {
     {
       return this.articleService.getArticle({ where: { id: id } });
     }
   }
 
-  @Version('1')
-  @Roles(Role.ADMIN)
   @Post()
+  @Roles(Role.ADMIN)
   @HttpCode(201)
+  @Version('1')
   public createArticle(
     @Body()
     data: CreateArticlesDto,
@@ -47,18 +50,18 @@ export class ArticlesController {
     return this.articleService.createArticle({ data });
   }
 
-  @Version('1')
-  @Roles(Role.ADMIN)
   @Delete(':id')
+  @Roles(Role.ADMIN)
   @HttpCode(200)
+  @Version('1')
   public deleteArticle(@Param('id', ParseIntPipe) id: number) {
     return this.articleService.deleteArticle({ where: { id: id } });
   }
 
-  @Version('1')
-  @Roles(Role.ADMIN)
   @Patch(':id')
+  @Roles(Role.ADMIN)
   @HttpCode(200)
+  @Version('1')
   public updateArticle(
     @Param('id', ParseIntPipe) id: number,
     @Body()
