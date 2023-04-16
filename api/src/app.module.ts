@@ -6,6 +6,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { UsersModule } from './modules/users/users.module';
+import { ArticlesModule } from './modules/articles/articles.module';
 
 @Module({
   imports: [

@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Article } from '@prisma/client';
 import { ArticlesRepository } from './articles.repository';
-import { CreateArticlesDto, UpdateArticlesDto } from './articles.dto';
+import {
+  ArticlesCreateDto,
+  ArticlesDeleteDto,
+  ArticlesGetDto,
+  ArticlesUpdateDto,
+} from './articles.schema';
 
 @Injectable()
 export class ArticlesService {
@@ -12,14 +16,16 @@ export class ArticlesService {
     return articles;
   }
 
-  async getArticle(params: { where: { id: Article['id'] } }) {
-    const { where } = params;
-    const Article = await this.repository.getArticle({ where });
+  async getArticle(params: ArticlesGetDto) {
+    const { id } = params;
+    const Article = await this.repository.getArticle({
+      where: { id },
+    });
     return Article;
   }
 
-  async createArticle(params: { data: CreateArticlesDto }) {
-    const { title, content, authorId, categoryId, isPublished } = params.data;
+  async createArticle(params: ArticlesCreateDto) {
+    const { title, content, authorId, categoryId, isPublished } = params;
     const article = await this.repository.createArticle({
       data: {
         title,
@@ -40,21 +46,17 @@ export class ArticlesService {
     return article;
   }
 
-  async deleteArticle(params: { where: { id: Article['id'] } }) {
-    const { where } = params;
-    const article = await this.repository.deleteArticle({ where });
+  async deleteArticle(params: ArticlesDeleteDto) {
+    const { id } = params;
+    const article = await this.repository.deleteArticle({ where: { id } });
     return article;
   }
 
-  async updateArticle(params: {
-    where: { id: Article['id'] };
-    data: UpdateArticlesDto;
-  }) {
-    const { where } = params;
-    const { title, content, categoryId, isPublished } = params.data;
+  async updateArticle(params: ArticlesUpdateDto) {
+    const { id, title, content, categoryId, isPublished } = params;
 
     const updatedArticle = {
-      where,
+      where: { id },
       data: {
         title,
         content,

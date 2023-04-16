@@ -5,17 +5,20 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  Param,
-  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
   Version,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { CreateArticlesDto, UpdateArticlesDto } from './articles.dto';
+import {
+  ArticlesCreateDto,
+  ArticlesDeleteDto,
+  ArticlesGetDto,
+  ArticlesUpdateDto,
+} from './articles.schema';
 import { ArticlesService } from './articles.service';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('articles')
 @Roles(Role.USER)
@@ -24,49 +27,37 @@ export default class ArticlesController {
   constructor(private readonly articleService: ArticlesService) {}
 
   @Get()
-  @HttpCode(200)
   @Version('1')
   getArticles() {
     return this.articleService.getArticles();
   }
 
   @Get(':id')
-  @HttpCode(200)
   @Version('1')
-  public getArticle(@Param('id', ParseIntPipe) id: number) {
+  public getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto) {
     {
-      return this.articleService.getArticle({ where: { id: id } });
+      return this.articleService.getArticle(data);
     }
   }
 
   @Post()
   @Roles(Role.ADMIN)
-  @HttpCode(201)
   @Version('1')
-  public createArticle(
-    @Body()
-    data: CreateArticlesDto,
-  ) {
-    return this.articleService.createArticle({ data });
-  }
-
-  @Delete(':id')
-  @Roles(Role.ADMIN)
-  @HttpCode(200)
-  @Version('1')
-  public deleteArticle(@Param('id', ParseIntPipe) id: number) {
-    return this.articleService.deleteArticle({ where: { id: id } });
+  public createArticle(@Body(ZodValidationPipe) data: ArticlesCreateDto) {
+    return this.articleService.createArticle(data);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN)
-  @HttpCode(200)
   @Version('1')
-  public updateArticle(
-    @Param('id', ParseIntPipe) id: number,
-    @Body()
-    data: UpdateArticlesDto,
-  ) {
-    return this.articleService.updateArticle({ where: { id: id }, data });
+  public updateArticle(@Body(ZodValidationPipe) data: ArticlesUpdateDto) {
+    return this.articleService.updateArticle(data);
+  }
+
+  @Delete(':id')
+  @Roles(Role.ADMIN)
+  @Version('1')
+  public deleteArticle(@Body(ZodValidationPipe) data: ArticlesDeleteDto) {
+    return this.articleService.deleteArticle(data);
   }
 }
