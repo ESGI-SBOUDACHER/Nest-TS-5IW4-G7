@@ -11,6 +11,7 @@ import {
   Version,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
+import { ZodValidationPipe } from 'nestjs-zod';
 import {
   ArticlesCreateDto,
   ArticlesDeleteDto,
@@ -18,7 +19,6 @@ import {
   ArticlesUpdateDto,
 } from './articles.schema';
 import { ArticlesService } from './articles.service';
-import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('articles')
 @Roles(Role.USER)
