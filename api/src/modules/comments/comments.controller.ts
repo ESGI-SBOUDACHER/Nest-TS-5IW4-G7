@@ -3,9 +3,6 @@ import {
   Controller,
   Get,
   Post,
-  HttpCode,
-  Request,
-  Header,
   Param,
   ParseIntPipe,
   Delete,
@@ -13,57 +10,54 @@ import {
   Patch,
   Version,
 } from '@nestjs/common';
-import { AuthGuard } from '@api/modules/auth/auth.guard';
+import { Roles } from '@api/common/decorators/roles.decorator';
+import { RolesGuard } from '@api/common/guards/roles.guard';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { Role } from '@prisma/client';
 import { CommentsService } from './comments.service';
-import { CreateCommentsDto, UpdateCommentsDto } from './comments.dto';
+import { CommentsGetDto , CommentsCreateDto, CommentsDeleteDto, CommentsUpdateDto, CommentsGetByArticleDto} from '../comments/comments.schema';
 
 @Controller('comments')
+@Roles(Role.USER)
+@UseGuards(RolesGuard)
 export class CommentsController {
   constructor(private readonly commentService: CommentsService) {}
 
   @Get()
+  @Roles(Role.ADMIN)
   @Version('1')
-  @HttpCode(200)
   getComments() {
     return this.commentService.getComments();
   }
 
-  @Get('articles/:idArticle')
+  @Get('articles')
   @Version('1')
-  @HttpCode(200)
-  getCommentsByArticle(@Param('idArticle', ParseIntPipe) id: number) {
-    return this.commentService.getCommentsByArticle({ where: { id: id }});
+  getCommentsByArticle(@Body(ZodValidationPipe) data: CommentsGetByArticleDto) {
+    return this.commentService.getCommentsByArticle(data);
   }
 
-  @Get(':id')
+  @Get('get')
   @Version('1')
-  @HttpCode(200)
-  public getComment(@Param('id', ParseIntPipe) id: number) {
-    return this.commentService.getComment({ where: { id: id } });
+  public getComment(@Body(ZodValidationPipe) data: CommentsGetDto) {
+    return this.commentService.getComment(data);
   }
 
-  @Post()
+  @Post('add')
   @Version('1')
-  @HttpCode(201)
-  public createComment(@Body() data: CreateCommentsDto) {
-    return this.commentService.createComment({ data });
+  public createComment(@Body(ZodValidationPipe) body: CommentsCreateDto) {
+    return this.commentService.createComment(body);
   }
 
-  @Delete(':id')
+  @Delete('delete')
   @Version('1')
-  @HttpCode(200)
-  public deleteComment(@Param('id', ParseIntPipe) id: number) {
-    return this.commentService.deleteComment({ where: { id: id } });
+  public deleteComment(@Body(ZodValidationPipe) body: CommentsDeleteDto) {
+    return this.commentService.deleteComment(body);
   }
 
-  @Patch(':id')
+  @Patch('update')
   @Version('1')
-  @HttpCode(200)
-  public updateComment(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdateCommentsDto,
-  ) {
-    return this.commentService.updateComment({ where: { id: id }, data });
+  public updateComment(@Body(ZodValidationPipe) data: CommentsUpdateDto) {
+    return this.commentService.updateComment(data);
   }
 
 }

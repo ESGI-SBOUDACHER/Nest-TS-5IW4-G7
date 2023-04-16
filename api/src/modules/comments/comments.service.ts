@@ -1,7 +1,6 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
 import { CommentsRepository } from './comments.repository';
-import { CreateCommentsDto, UpdateCommentsDto } from './comments.dto';
-import { Comment } from '@prisma/client';
+import { Article, Comment } from '@prisma/client';
 import { ArticlesRepository } from '@api/modules/articles/articles.repository';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
@@ -19,27 +18,27 @@ export class CommentsService {
         return comments;
     }
 
-    async getCommentsByArticle(params: { where: { id: Comment['id'] } }) {
-        const { where } = params;
+    async getCommentsByArticle(params: {  idArticle?: Article['id'] } ) {
+        const { idArticle } = params;
         const article = await this.articleRepository.getArticle({
-            where: { id: where.id },
+            where: { id : idArticle },
         });
         if (article.isPublished) {
-        const comments = await this.commentRepository.getCommentsByArticle({ articleId: where.id });
+        const comments = await this.commentRepository.getCommentsByArticle({ articleId: idArticle });
         return comments;
         } else {
             return 'Article not published';
         }
     }
 
-    async getComment(params: { where: { id: Comment['id'] } }) {
-        const { where } = params;
-        const comment = await this.commentRepository.getComment({ where });
+    async getComment(params: { id?: Comment['id']  }) {
+        const { id } = params;
+        const comment = await this.commentRepository.getComment({ where : { id }});
         return comment;
     }
 
-    async createComment(params: { data: CreateCommentsDto }) {
-        const { content, authorId, articleId } = params.data;
+    async createComment(params: { content?: Comment['content'], authorId?: Comment['authorId'], articleId?: Comment['articleId'] }) {
+        const { content, authorId, articleId } = params;
         const article = await this.articleRepository.getArticle({
             where: { id: articleId },
         });
@@ -70,34 +69,30 @@ export class CommentsService {
         }
     }
 
-    async deleteComment(params: { where: { id: Comment['id'] } }) {
+    async deleteComment(params: {  id?: Comment['id']  }) {
         // Voir pour le any
-        const { where } = params;
-        const commentActu = await this.commentRepository.getComment({ where });
+        const { id } = params;
+        const commentActu = await this.commentRepository.getComment({ where : { id }});
         if (
             commentActu?.authorId === this.request.user.id ||
             this.request.user.role == 'ADMIN'
         ) {
-            const comment = await this.commentRepository.deleteComment({ where });
+            const comment = await this.commentRepository.deleteComment({ where : { id } });
             return comment;
         } else {
             return 'You are not the author of this comment';
         }
     }
 
-    async updateComment(params: {
-        where: { id: Comment['id'] };
-        data: UpdateCommentsDto;
-    }) {
-        const { where } = params;
-        const { content, authorId, articleId } = params.data;
-        const commentActu = await this.commentRepository.getComment({ where });
+    async updateComment(params: { id?: Comment['id'] , content?: Comment['content'], authorId?: Comment['authorId'], articleId?: Comment['articleId'] }) {
+        const { id, content, authorId, articleId } = params;
+        const commentActu = await this.commentRepository.getComment({ where : { id }});
         if (
             commentActu?.authorId === this.request.user.id ||
             this.request.user.role == 'ADMIN'
         ) {
             const comment = await this.commentRepository.updateComment({
-                where,
+                where: { id },
                 data: {
                     content,
                     author: {
