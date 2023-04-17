@@ -34,9 +34,9 @@ export class UsersService {
     return users;
   }
 
-  async getUser(params: { id?: User['id'] }) {
-    const { id } = params;
-    const user = await this.repository.getUser({ where: { id } });
+  async getUser(params: { email?: User['email'] }) {
+    const { email } = params;
+    const user = await this.repository.getUser({ where: { email } });
     return user;
   }
 

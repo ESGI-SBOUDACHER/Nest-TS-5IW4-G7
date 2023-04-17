@@ -11,7 +11,7 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string): Promise<any> {
-    const user = await this.userService.getUser({ where: { email } });
+    const user = await this.userService.getUser({ email });
 
     if (!user) {
       return UnauthorizedException;
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   async register(email: string, password: string): Promise<any> {
-    const user = await this.userService.getUser({ where: { email } });
+    const user = await this.userService.getUser({ email });
     if (user) {
       return UnauthorizedException;
     }
