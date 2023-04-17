@@ -45,9 +45,6 @@ Also verify that you use an Bearer Token as Authorization in Postman. Because al
 
 ## Roles
 
-email :
-password :
-
 | Email          | Password | Role  |
 | -------------- | -------- | ----- |
 | user@user.fr   | password | User  |
