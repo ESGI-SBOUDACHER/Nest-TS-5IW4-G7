@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
 
 const usersGetSchema = z.object({
-  id: z.number().int().positive(),
+  email: z.string().email(),
 });
 
 const usersDeleteSchema = z.object({
