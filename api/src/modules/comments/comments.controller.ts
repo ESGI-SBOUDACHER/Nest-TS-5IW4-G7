@@ -1,21 +1,25 @@
+import { Roles } from '@api/common/decorators/roles.decorator';
+import { RolesGuard } from '@api/common/guards/roles.guard';
 import {
   Body,
   Controller,
-  Get,
-  Post,
-  Param,
-  ParseIntPipe,
   Delete,
-  UseGuards,
+  Get,
   Patch,
+  Post,
+  UseGuards,
   Version,
 } from '@nestjs/common';
-import { Roles } from '@api/common/decorators/roles.decorator';
-import { RolesGuard } from '@api/common/guards/roles.guard';
-import { ZodValidationPipe } from 'nestjs-zod';
 import { Role } from '@prisma/client';
+import { ZodValidationPipe } from 'nestjs-zod';
+import {
+  CommentsCreateDto,
+  CommentsDeleteDto,
+  CommentsGetByArticleDto,
+  CommentsGetDto,
+  CommentsUpdateDto,
+} from '../comments/comments.schema';
 import { CommentsService } from './comments.service';
-import { CommentsGetDto , CommentsCreateDto, CommentsDeleteDto, CommentsUpdateDto, CommentsGetByArticleDto} from '../comments/comments.schema';
 
 @Controller('comments')
 @Roles(Role.USER)
@@ -59,5 +63,4 @@ export class CommentsController {
   public updateComment(@Body(ZodValidationPipe) data: CommentsUpdateDto) {
     return this.commentService.updateComment(data);
   }
-
 }
