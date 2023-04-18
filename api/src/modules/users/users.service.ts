@@ -2,6 +2,7 @@ import { hashPassword } from '@api/common/utils/auth';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
+import { UsersDeleteDto, UsersGetDto } from './users.schamea';
 
 @Injectable()
 export class UsersService {
@@ -34,13 +35,13 @@ export class UsersService {
     return users;
   }
 
-  async getUser(params: { email?: User['email'] }) {
+  async getUser(params: UsersGetDto) {
     const { email } = params;
     const user = await this.repository.getUser({ where: { email } });
     return user;
   }
 
-  async deleteUser(params: { id?: User['id'] }) {
+  async deleteUser(params: UsersDeleteDto) {
     const { id } = params;
     const user = await this.repository.deleteUser({ where: { id } });
     return user;
