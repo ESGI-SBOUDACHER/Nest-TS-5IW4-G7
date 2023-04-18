@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8b758bf1-114e-4836-98b1-7f9751b61cd0",
+		"_postman_id": "3fbc0a23-64ee-448c-ba5f-63df2f2b30b7",
 		"name": "Nest project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "4231301"
+		"_exporter_id": "7642347"
 	},
 	"item": [
 		{
@@ -120,6 +120,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -132,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"admin@user.fr\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -279,53 +309,27 @@
 			]
 		},
 		{
-			"name": "articles",
+			"name": "categories",
 			"item": [
 				{
-					"name": "Get articles",
+					"name": "Get categories",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/articles",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"articles"
-							]
-						}
+						"header": []
 					},
 					"response": []
 				},
 				{
-					"name": "Get article",
+					"name": "Get category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/articles/20",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"articles",
-								"20"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create article",
-					"request": {
-						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage sur la lune\",\n    \"content\": \"Ut aliquam et eros ac consectetur. Nulla vitae condimentum urna. Aliquam sit amet turpis sit amet enim volutpat efficitur sit amet vel lectus. Vestibulum volutpat neque non massa accumsan, et ornare dui luctus. Pellentesque consequat aliquet arcu et iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer molestie lorem arcu. Morbi maximus nulla tincidunt aliquam consectetur. Vivamus sagittis velit vitae leo viverra ultricies. In dolor diam, convallis et pharetra sit amet, iaculis eget ex. Aenean pharetra ultrices ultricies. Praesent mauris sem, sollicitudin eu sem a, fermentum suscipit magna. Suspendisse nibh quam, tristique dignissim cursus eget, suscipit eget lorem.\",\n    \"authorId\": 53,\n    \"categoryId\": 20\n}",
+							"raw": "{\n    \"name\": \"pouet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -333,26 +337,27 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/articles",
+							"raw": "localhost:3000/categories/get",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"articles"
+								"categories",
+								"get"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update article",
+					"name": "Update category",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage au bout de la terre\",\n    \"content\": \"content\"\n}",
+							"raw": "{\n    \"id\": 10,\n    \"name\": \"Pouet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -360,37 +365,104 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/articles/27",
+							"raw": "localhost:3000/categories/update",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"articles",
-								"27"
+								"categories",
+								"update"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete article",
+					"name": "Add category",
 					"request": {
-						"method": "DELETE",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/articles/19",
+							"raw": "localhost:3000/categories/add",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"articles",
-								"19"
+								"categories",
+								"add"
 							]
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pouet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
