@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
+import { Article, PrismaClient, Role } from '@prisma/client';
 import { ArticlesRepository } from './articles.repository';
 import {
   ArticlesCreateDto,
@@ -9,19 +11,37 @@ import {
 
 @Injectable()
 export class ArticlesService {
-  constructor(private repository: ArticlesRepository) {}
+  constructor(
+    private repository: ArticlesRepository,
+    @Inject(REQUEST) private readonly request: any, // A voir pour request sans le any
+  ) {}
 
   async getArticles() {
-    const articles = await this.repository.getArticles({});
+    let articles: Article[] = [];
+    if (this.request.user.roles.includes(Role.ADMIN))
+      articles = await this.repository.getArticles({});
+    else
+      articles = await this.repository.getArticles({
+        where: { isPublished: true },
+      });
     return articles;
   }
 
   async getArticle(params: ArticlesGetDto) {
+    const prisma = new PrismaClient();
     const { id } = params;
-    const Article = await this.repository.getArticle({
-      where: { id },
-    });
-    return Article;
+    let article: Article = null;
+
+    if (this.request.user.roles.includes(Role.ADMIN))
+      article = await this.repository.getArticle({
+        where: { id },
+      });
+    else
+      article = await prisma.article.findFirst({
+        where: { id, isPublished: true },
+      });
+
+    return article;
   }
 
   async createArticle(params: ArticlesCreateDto) {

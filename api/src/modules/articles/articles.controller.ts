@@ -10,7 +10,7 @@ import {
   UseGuards,
   Version,
 } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Article, Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
 import {
   ArticlesCreateDto,
@@ -28,34 +28,40 @@ export default class ArticlesController {
 
   @Get()
   @Version('1')
-  getArticles() {
+  getArticles(): Promise<Article[]> {
     return this.articleService.getArticles();
   }
 
   @Get(':id')
   @Version('1')
-  getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto) {
+  getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto): Promise<Article> {
     return this.articleService.getArticle(data);
   }
 
   @Post()
   @Roles(Role.ADMIN)
   @Version('1')
-  public createArticle(@Body(ZodValidationPipe) data: ArticlesCreateDto) {
+  public createArticle(
+    @Body(ZodValidationPipe) data: ArticlesCreateDto,
+  ): Promise<Article> {
     return this.articleService.createArticle(data);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN)
   @Version('1')
-  public updateArticle(@Body(ZodValidationPipe) data: ArticlesUpdateDto) {
+  public updateArticle(
+    @Body(ZodValidationPipe) data: ArticlesUpdateDto,
+  ): Promise<Article> {
     return this.articleService.updateArticle(data);
   }
 
   @Delete(':id')
   @Roles(Role.ADMIN)
   @Version('1')
-  public deleteArticle(@Body(ZodValidationPipe) data: ArticlesDeleteDto) {
+  public deleteArticle(
+    @Body(ZodValidationPipe) data: ArticlesDeleteDto,
+  ): Promise<Article> {
     return this.articleService.deleteArticle(data);
   }
 }
