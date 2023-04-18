@@ -51,7 +51,7 @@ export class UsersService {
     const currentUser = this.request.user;
 
     if (!userToUpdate) {
-      return UnauthorizedException;
+      throw new UnauthorizedException();
     }
 
     // Check if user is role only user and himself and if he is trying to update roles
@@ -59,9 +59,7 @@ export class UsersService {
       currentUser.roles.includes([Role.USER]) &&
       (currentUser.email !== userToUpdate.email || params.roles)
     ) {
-      throw new UnauthorizedException(
-        'User is not authorized to update roles or other users than himself',
-      );
+      throw new UnauthorizedException('User is not authorized to update roles');
     }
 
     // Check if user is admin and trying to update other admins
@@ -87,12 +85,10 @@ export class UsersService {
 
     // Check if user admin or user himself
     if (
-      this.request.user.roles.includes(Role.USER) &&
+      this.request.user.roles.includes([Role.USER]) &&
       this.request.user.id !== id
     ) {
-      throw new UnauthorizedException(
-        'User is not authorized to delete this user',
-      );
+      throw new UnauthorizedException();
     }
 
     const user = await this.repository.deleteUser({ where: { id } });
