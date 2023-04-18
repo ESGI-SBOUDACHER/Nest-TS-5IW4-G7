@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3fbc0a23-64ee-448c-ba5f-63df2f2b30b7",
+		"_postman_id": "c303d1df-7f7f-4858-a47e-6d03822cef80",
 		"name": "Nest project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7642347"
+		"_exporter_id": "4231301"
 	},
 	"item": [
 		{
@@ -29,31 +29,15 @@
 				},
 				{
 					"name": "Get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "localhost:3000/users/123",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"123"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create user",
-					"request": {
-						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"pouet@pouet.com\",\n    \"firstname\": \"pouet\",\n    \"lastname\": \"PATA\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"id\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,13 +45,33 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/users",
+							"raw": "localhost:3000/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users"
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/currentUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"currentUser"
 							]
 						}
 					},
@@ -80,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"123\",\n  \"password\": \"reset\",\n  \"email\": \"reset@reset.com\",\n  \"firstname\": \"Reset\",\n  \"lastname\": \"Titi\"\n}",
+							"raw": "{\n  \"email\": \"user@user.fr\",\n  \"firstname\": \"myName\",\n  \"lastname\": \"LastName\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -88,14 +92,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/users/123",
+							"raw": "localhost:3000/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"users",
-								"123"
+								""
 							]
 						}
 					},
@@ -106,15 +110,24 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 11\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/users/123",
+							"raw": "localhost:3000/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"users",
-								"123"
+								""
 							]
 						}
 					},
@@ -190,7 +203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"admin@user.fr\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -331,18 +344,25 @@
 				},
 				{
 					"name": "Get article",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2\n}"
+						},
 						"url": {
-							"raw": "localhost:3000/articles/20",
+							"raw": "localhost:3000/articles/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"20"
+								""
 							]
 						}
 					},
@@ -431,7 +451,10 @@
 					"name": "Get categories",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -583,6 +606,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
