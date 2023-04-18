@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { Category } from '@prisma/client';
 import { CategoriesRepository } from './categories.repository';
+import {
+  CategoriesCreateDto,
+  CategoriesDeleteDto,
+  CategoriesGetDto,
+  CategoriesUpdateDto,
+} from './categories.schema';
 
 @Injectable()
 export class CategoriesService {
   constructor(private repository: CategoriesRepository) {}
 
-  async createCategory(params: { name?: Category['name'] }) {
+  async createCategory(params: CategoriesCreateDto) {
     const { name } = params;
 
     const category = await this.repository.createCategory({
@@ -18,7 +23,7 @@ export class CategoriesService {
     return category;
   }
 
-  async getCategory(params: { id?: Category['id'] }) {
+  async getCategory(params: CategoriesGetDto) {
     const { id } = params;
     const category = await this.repository.getCategory({
       where: { id },
@@ -31,21 +36,15 @@ export class CategoriesService {
     return categories;
   }
 
-  async deleteCategory(params: {
-    name?: Category['name'];
-    id?: Category['id'];
-  }) {
-    const { name, id } = params;
+  async deleteCategory(params: CategoriesDeleteDto) {
+    const { id } = params;
     const category = await this.repository.deleteCategory({
-      where: { name, id },
+      where: { id },
     });
     return category;
   }
 
-  async updaetCategory(params: {
-    id?: Category['id'];
-    name?: Category['name'];
-  }) {
+  async updaetCategory(params: CategoriesUpdateDto) {
     const { id, name } = params;
     const category = await this.repository.updateCategory({
       where: { id },

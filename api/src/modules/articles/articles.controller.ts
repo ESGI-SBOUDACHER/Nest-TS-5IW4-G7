@@ -34,30 +34,28 @@ export default class ArticlesController {
 
   @Get(':id')
   @Version('1')
-  public getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto) {
-    {
-      return this.articleService.getArticle(data);
-    }
+  getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto) {
+    return this.articleService.getArticle(data);
   }
 
   @Post()
   @Roles(Role.ADMIN)
   @Version('1')
-  public createArticle(@Body(ZodValidationPipe) data: ArticlesCreateDto) {
+  createArticle(@Body(ZodValidationPipe) data: ArticlesCreateDto) {
     return this.articleService.createArticle(data);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN)
   @Version('1')
-  public updateArticle(@Body(ZodValidationPipe) data: ArticlesUpdateDto) {
+  updateArticle(@Body(ZodValidationPipe) data: ArticlesUpdateDto) {
     return this.articleService.updateArticle(data);
   }
 
   @Delete(':id')
   @Roles(Role.ADMIN)
   @Version('1')
-  public deleteArticle(@Body(ZodValidationPipe) data: ArticlesDeleteDto) {
+  deleteArticle(@Body(ZodValidationPipe) data: ArticlesDeleteDto) {
     return this.articleService.deleteArticle(data);
   }
 }
