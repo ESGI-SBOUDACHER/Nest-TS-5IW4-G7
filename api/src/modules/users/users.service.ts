@@ -2,7 +2,7 @@ import { hashPassword } from '@api/common/utils/auth';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
-import { UsersDeleteDto, UsersGetDto } from './users.schamea';
+import { UsersDeleteDto, UsersGetDto } from './users.schema';
 
 @Injectable()
 export class UsersService {

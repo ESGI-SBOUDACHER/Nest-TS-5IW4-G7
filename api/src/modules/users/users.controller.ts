@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { UsersDeleteDto, UsersGetDto } from './users.schamea';
+import { UsersDeleteDto, UsersGetDto } from './users.schema';
 import { UsersService } from './users.service';
 
 @Controller('users')
