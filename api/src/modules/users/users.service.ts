@@ -1,36 +1,48 @@
+import { hashPassword } from '@api/common/utils/auth';
 import { Injectable } from '@nestjs/common';
-import { User } from '../../models/interfaces/user';
+import { User } from '@prisma/client';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [];
+  constructor(private repository: UsersRepository) {}
 
-  findAll(): User[] {
-    return this.users;
-  }
+  async createUser(params: {
+    email: User['email'];
+    password: User['password'];
+    firstname?: User['firstname'];
+    lastname?: User['lastname'];
+  }) {
+    const { email, password, firstname, lastname } = params;
 
-  find(id: string): User {
-    return this.users.find((user) => {
-      console.log('TEST ID COMP', id, user.id);
-      return user.id === id;
+    const hashedPassword = await hashPassword(password);
+
+    const user = await this.repository.createUser({
+      data: {
+        email,
+        password: hashedPassword,
+        firstname,
+        lastname,
+      },
     });
-  }
 
-  create(user: User): User {
-    this.users.push(user);
     return user;
   }
 
-  update(id: string, user: User): User {
-    const index = this.users.findIndex((user) => user.id === id);
-    this.users[index] = user;
+  async getUsers() {
+    const users = await this.repository.getUsers({});
+    return users;
+  }
+
+  async getUser(params: { email?: User['email'] }) {
+    const { email } = params;
+    const user = await this.repository.getUser({ where: { email } });
     return user;
   }
 
-  delete(id: string): User {
-    const index = this.users.findIndex((user) => user.id === id);
-    const user = this.users[index];
-    this.users.splice(index, 1);
+  async deleteUser(params: { id?: User['id'] }) {
+    const { id } = params;
+    const user = await this.repository.deleteUser({ where: { id } });
     return user;
   }
 }
