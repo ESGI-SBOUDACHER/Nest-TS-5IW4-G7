@@ -5,13 +5,17 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Patch,
   Request,
+  UnauthorizedException,
   UseGuards,
+  UseInterceptors,
   Version,
 } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { PasswordInterceptor } from './users.interceptor';
 import { UsersDeleteDto, UsersGetDto, UsersUpdateDto } from './users.schema';
 import { UsersService } from './users.service';
 
@@ -22,34 +26,44 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getUsers() {
+  @Header('X-School', 'ESGI')
+  getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
   @Get('get')
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getUser(@Body(ZodValidationPipe) body: UsersGetDto) {
+  getUser(@Body(ZodValidationPipe) body: UsersGetDto): Promise<User> {
     return this.userService.getUser(body);
   }
 
   @Delete()
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  deleteUser(@Body(ZodValidationPipe) body: UsersDeleteDto) {
+  deleteUser(@Body(ZodValidationPipe) body: UsersDeleteDto): Promise<User> {
     return this.userService.deleteUser(body);
   }
 
   @Patch()
   @Roles(Role.USER)
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  updateUser(@Body(ZodValidationPipe) body: UsersUpdateDto) {
+  updateUser(
+    @Body(ZodValidationPipe) body: UsersUpdateDto,
+  ): Promise<User | typeof UnauthorizedException> {
     return this.userService.updateUser(body);
   }
 
   @Get('currentUser')
   @Roles(Role.USER)
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getCurrentUser(@Request() req: Request) {
+  getCurrentUser(
+    @Request() req: Request,
+  ): Promise<User | typeof UnauthorizedException> {
     const user = new UsersGetDto();
     user.email = req['user'].email;
     return this.userService.getUser(user);
