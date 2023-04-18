@@ -1,8 +1,14 @@
 import { ArticlesRepository } from '@api/modules/articles/articles.repository';
 import { Inject, Injectable, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Article, Comment } from '@prisma/client';
 import { CommentsRepository } from './comments.repository';
+import {
+  CommentsCreateDto,
+  CommentsDeleteDto,
+  CommentsGetByArticleDto,
+  CommentsGetDto,
+  CommentsUpdateDto,
+} from './comments.schema';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CommentsService {
@@ -17,7 +23,7 @@ export class CommentsService {
     return comments;
   }
 
-  async getCommentsByArticle(params: { idArticle?: Article['id'] }) {
+  async getCommentsByArticle(params: CommentsGetByArticleDto) {
     const { idArticle } = params;
     const article = await this.articleRepository.getArticle({
       where: { id: idArticle },
@@ -32,17 +38,13 @@ export class CommentsService {
     }
   }
 
-  async getComment(params: { id?: Comment['id'] }) {
+  async getComment(params: CommentsGetDto) {
     const { id } = params;
     const comment = await this.commentRepository.getComment({ where: { id } });
     return comment;
   }
 
-  async createComment(params: {
-    content?: Comment['content'];
-    authorId?: Comment['authorId'];
-    articleId?: Comment['articleId'];
-  }) {
+  async createComment(params: CommentsCreateDto) {
     const { content, authorId, articleId } = params;
     const article = await this.articleRepository.getArticle({
       where: { id: articleId },
@@ -74,7 +76,7 @@ export class CommentsService {
     }
   }
 
-  async deleteComment(params: { id?: Comment['id'] }) {
+  async deleteComment(params: CommentsDeleteDto) {
     // Voir pour le any
     const { id } = params;
     const commentActu = await this.commentRepository.getComment({
@@ -93,12 +95,7 @@ export class CommentsService {
     }
   }
 
-  async updateComment(params: {
-    id?: Comment['id'];
-    content?: Comment['content'];
-    authorId?: Comment['authorId'];
-    articleId?: Comment['articleId'];
-  }) {
+  async updateComment(params: CommentsUpdateDto) {
     const { id, content, authorId, articleId } = params;
     const commentActu = await this.commentRepository.getComment({
       where: { id },
