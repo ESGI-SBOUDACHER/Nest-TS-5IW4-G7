@@ -41,6 +41,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "sudo git clone git@github.com:ESGI-SBOUDACHER/Nest-TS-5IW4-G7.git /var/www/app || (cd /var/www/app && git pull)"
