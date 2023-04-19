@@ -37,7 +37,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1\n}",
+							"raw": "{\n    \"email\": \"coraline@user.fr\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,14 +45,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/users/",
+							"raw": "localhost:3000/users/get",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"users",
-								""
+								"get"
 							]
 						}
 					},
@@ -223,71 +223,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "successfull auth request",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/auth/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"auth",
-								"profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "failed auth request",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/auth/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"auth",
-								"profile"
-							]
-						}
-					},
-					"response": []
 				}
 			],
 			"auth": {
@@ -352,17 +287,22 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2\n}"
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "localhost:3000/articles/",
+							"raw": "localhost:3000/articles/2",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								""
+								"2"
 							]
 						}
 					},
@@ -375,7 +315,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage sur la lune\",\n    \"content\": \"Ut aliquam et eros ac consectetur. Nulla vitae condimentum urna. Aliquam sit amet turpis sit amet enim volutpat efficitur sit amet vel lectus. Vestibulum volutpat neque non massa accumsan, et ornare dui luctus. Pellentesque consequat aliquet arcu et iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer molestie lorem arcu. Morbi maximus nulla tincidunt aliquam consectetur. Vivamus sagittis velit vitae leo viverra ultricies. In dolor diam, convallis et pharetra sit amet, iaculis eget ex. Aenean pharetra ultrices ultricies. Praesent mauris sem, sollicitudin eu sem a, fermentum suscipit magna. Suspendisse nibh quam, tristique dignissim cursus eget, suscipit eget lorem.\",\n    \"authorId\": 53,\n    \"categoryId\": 20\n}",
+							"raw": "{\n    \"title\": \"Voyage sur la Lune\", \n    \"content\": \"Ut aliquam et eros ac consectetur. Nulla vitae condimentum urna. Aliquam sit amet turpis sit amet enim volutpat efficitur sit ame\",\n    \"categoryId\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -402,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage au bout de la terre\",\n    \"content\": \"content\"\n}",
+							"raw": "{\n    \"id\": 2,\n    \"title\": \"Hello\",\n    \"content\": \"This is a long text\",\n    \"categoryId\": 2,\n    \"authorId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -410,14 +350,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/articles/27",
+							"raw": "localhost:3000/articles/3",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"27"
+								"3"
 							]
 						}
 					},
@@ -428,15 +368,24 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/articles/19",
+							"raw": "localhost:3000/articles/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"19"
+								""
 							]
 						}
 					},
