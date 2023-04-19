@@ -27,7 +27,7 @@ export class ArticlesService {
     return articles;
   }
 
-  async getArticle(params: ArticlesGetDto) {
+  async getArticle(params: ArticlesGetDto): Promise<Article> {
     const prisma = new PrismaClient();
     const { id } = params;
     let article: Article = null;
@@ -44,15 +44,15 @@ export class ArticlesService {
     return article;
   }
 
-  async createArticle(params: ArticlesCreateDto) {
-    const { title, content, authorId, categoryId, isPublished } = params;
+  async createArticle(params: ArticlesCreateDto): Promise<Article> {
+    const { title, content, categoryId, isPublished } = params;
     const article = await this.repository.createArticle({
       data: {
         title,
         content,
         author: {
           connect: {
-            id: authorId,
+            id: this.request.user.id,
           },
         },
         category: {
@@ -66,13 +66,13 @@ export class ArticlesService {
     return article;
   }
 
-  async deleteArticle(params: ArticlesDeleteDto) {
+  async deleteArticle(params: ArticlesDeleteDto): Promise<Article> {
     const { id } = params;
     const article = await this.repository.deleteArticle({ where: { id } });
     return article;
   }
 
-  async updateArticle(params: ArticlesUpdateDto) {
+  async updateArticle(params: ArticlesUpdateDto): Promise<Article> {
     const { id, title, content, categoryId, isPublished } = params;
 
     const updatedArticle = {

@@ -7,19 +7,18 @@ const articlesGetSchema = z.object({
 
 const articlesCreateSchema = z.object({
   title: z.string().min(1).max(255).trim(),
-  content: z.string().min(1).max(255).trim(),
-  isPublished: z.boolean(),
-  authorId: z.number().int().positive(),
+  content: z.string().min(1).min(10).trim(),
+  isPublished: z.boolean().optional(),
   categoryId: z.number().int().positive(),
 });
 
 const articlesUpdateSchema = z.object({
   id: z.number().int().positive(),
-  title: z.string().max(255).trim(),
-  content: z.string().max(255).trim(),
-  isPublished: z.boolean(),
-  authorId: z.number().int().positive(),
-  categoryId: z.number().int().positive(),
+  title: z.string().max(255).trim().optional(),
+  content: z.string().min(10).trim().optional(),
+  isPublished: z.boolean().optional(),
+  authorId: z.number().int().positive().optional(),
+  categoryId: z.number().int().positive().optional(),
 });
 
 const articlesDeleteSchema = z.object({

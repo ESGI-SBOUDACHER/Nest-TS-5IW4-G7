@@ -5,6 +5,8 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -15,7 +17,6 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import {
   ArticlesCreateDto,
   ArticlesDeleteDto,
-  ArticlesGetDto,
   ArticlesUpdateDto,
 } from './articles.schema';
 import { ArticlesService } from './articles.service';
@@ -28,14 +29,14 @@ export default class ArticlesController {
 
   @Get()
   @Version('1')
-  getArticles(): Promise<Article[]> {
+  public getArticles(): Promise<Article[]> {
     return this.articleService.getArticles();
   }
 
   @Get(':id')
   @Version('1')
-  getArticle(@Body(ZodValidationPipe) data: ArticlesGetDto): Promise<Article> {
-    return this.articleService.getArticle(data);
+  public getArticle(@Param('id', ParseIntPipe) id: number): Promise<Article> {
+    return this.articleService.getArticle({ id });
   }
 
   @Post()
@@ -56,7 +57,7 @@ export default class ArticlesController {
     return this.articleService.updateArticle(data);
   }
 
-  @Delete(':id')
+  @Delete('')
   @Roles(Role.ADMIN)
   @Version('1')
   public deleteArticle(
