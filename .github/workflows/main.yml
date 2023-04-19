@@ -41,5 +41,5 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "GIT_SSH_COMMAND='ssh -i ~/.ssh/deploy_key  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' git clone git@github.com:ESGI-SBOUDACHER/Nest-TS-5IW4-G7.git /var/www/app || (cd /var/www/app && git pull)"
+          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "sudo -E rm -rf /var/www/app/ && GIT_SSH_COMMAND='ssh -i ~/.ssh/deploy_key  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' sudo -E git clone git@github.com:ESGI-SBOUDACHER/Nest-TS-5IW4-G7.git /var/www/app"
           ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "cd /var/www/app/api && npm ci && npm run start:prod"
