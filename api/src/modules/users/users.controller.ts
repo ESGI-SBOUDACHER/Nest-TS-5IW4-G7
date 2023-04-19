@@ -29,21 +29,23 @@ export class UsersController {
   @UseInterceptors(PasswordInterceptor)
   @Version('1')
   @Header('X-School', 'ESGI')
-  getUsers(): Promise<User[]> {
+  public getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
   @Get('get')
   @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getUser(@Body(ZodValidationPipe) body: UsersGetDto): Promise<User> {
+  public getUser(@Body(ZodValidationPipe) body: UsersGetDto): Promise<User> {
     return this.userService.getUser(body);
   }
 
   @Delete()
   @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  deleteUser(@Body(ZodValidationPipe) body: UsersDeleteDto): Promise<User> {
+  public deleteUser(
+    @Body(ZodValidationPipe) body: UsersDeleteDto,
+  ): Promise<User> {
     return this.userService.deleteUser(body);
   }
 
@@ -51,7 +53,7 @@ export class UsersController {
   @Roles(Role.USER)
   @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  updateUser(
+  public updateUser(
     @Body(ZodValidationPipe) body: UsersUpdateDto,
   ): Promise<User | typeof UnauthorizedException> {
     return this.userService.updateUser(body);
@@ -61,7 +63,7 @@ export class UsersController {
   @Roles(Role.USER)
   @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getCurrentUser(
+  public getCurrentUser(
     @Request() req: Request,
   ): Promise<User | typeof UnauthorizedException> {
     const user = new UsersGetDto();
