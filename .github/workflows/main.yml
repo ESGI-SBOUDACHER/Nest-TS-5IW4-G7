@@ -41,8 +41,9 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          ssh-keyscan $HOST >> ~/.ssh/known_hosts
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "sudo git clone git@github.com:ESGI-SBOUDACHER/Nest-TS-5IW4-G7.git /var/www/app || (cd /var/www/app && git pull)"
-          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "sudo export DATABASE_URL='$DATABASE_URL' JWT_SECRET='$JWT_SECRET' && cd /var/www/app/api && npm ci && npm run start:prod"
+          echo "$DEPLOY_KEY" > deploy_key
+          chmod 600 deploy_key
+          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "GIT_SSH_COMMAND='ssh -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' git@github.com:ESGI-SBOUDACHER/Nest-TS-5IW4-G7.git /var/www/app || (cd /var/www/app && git pull)"
+          ssh -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@$HOST "cd /var/www/app/api && npm ci && npm run start:prod"
