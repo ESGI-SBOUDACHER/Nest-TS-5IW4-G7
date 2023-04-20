@@ -16,7 +16,7 @@ export class ArticlesService {
     @Inject(REQUEST) private readonly request: any, // A voir pour request sans le any
   ) {}
 
-  async getArticles() {
+  async getArticles(): Promise<Article[]> {
     let articles: Article[] = [];
     if (this.request.user.roles.includes(Role.ADMIN))
       articles = await this.repository.getArticles({});
