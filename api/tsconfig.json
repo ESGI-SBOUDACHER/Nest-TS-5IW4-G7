@@ -4,8 +4,7 @@
     "require": ["tsconfig-paths/register"]
   },
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
