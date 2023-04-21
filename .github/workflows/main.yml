@@ -28,8 +28,8 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          echo "$DATABASE_URL" >> .env
-          echo "$JWT_SECRET" >> .env
+          echo "DATABASE_URL=$DATABASE_URL" >> .env
+          echo "JWT_SECRET=$JWT_SECRET" >> .env
           cat .env
 
       - name: Deploy to EC2
