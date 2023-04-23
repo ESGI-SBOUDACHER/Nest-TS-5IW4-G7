@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { AuthLoginDto, AuthRegisterDto } from './auth.schema';
-
+import * as Sentry from '@sentry/node';
 @Injectable()
 export class AuthService {
   constructor(
@@ -25,6 +25,8 @@ export class AuthService {
     }
 
     const payload = { email: user.email, id: user.id, roles: user.roles };
+
+    Sentry.setUser({ email: user.email });
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

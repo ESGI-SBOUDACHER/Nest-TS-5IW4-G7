@@ -8,6 +8,8 @@ import {
   Post,
   UseGuards,
   Version,
+  UseInterceptors,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -18,10 +20,12 @@ import {
   CategoriesUpdateDto,
 } from './categories.schema';
 import { CategoriesService } from './categories.service';
+import { SentryInterceptor } from '@api/sentry.interceptor';
 
 @Controller('categories')
 @Roles(Role.USER)
 @UseGuards(RolesGuard)
+@UseInterceptors(SentryInterceptor)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 

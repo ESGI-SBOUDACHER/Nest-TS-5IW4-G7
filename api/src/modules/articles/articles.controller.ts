@@ -11,6 +11,7 @@ import {
   Post,
   UseGuards,
   Version,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Article, Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -20,10 +21,12 @@ import {
   ArticlesUpdateDto,
 } from './articles.schema';
 import { ArticlesService } from './articles.service';
+import { SentryInterceptor } from '@api/sentry.interceptor';
 
 @Controller('articles')
 @Roles(Role.USER)
 @UseGuards(RolesGuard)
+@UseInterceptors(SentryInterceptor)
 export default class ArticlesController {
   constructor(private readonly articleService: ArticlesService) {}
 
