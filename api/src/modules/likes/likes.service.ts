@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Like, PrismaClient, Role } from '@prisma/client';
 import { LikesRepository } from './likes.repository';
@@ -39,7 +39,7 @@ export class LikesService {
     return like;
   }
 
-  async createLike(params: LikesCreateDto): Promise<Like> {
+  async createLike(params: LikesCreateDto): Promise<Like | Error> {
     const { articleId } = params;
 
     // We check if the user has already liked the article
@@ -47,6 +47,12 @@ export class LikesService {
       where: { articleId, authorId: this.request.user.id },
     });
 
+    // We check if the article exists and if it is published
+    const article = new PrismaClient().article.findFirst({
+      where: { id: articleId, isPublished: true },
+    });
+
+    if (!article) throw new UnauthorizedException();
     if (likeExists) throw new Error('You already liked this article');
 
     const like = await this.repository.createLike({
@@ -66,20 +72,18 @@ export class LikesService {
     return like;
   }
 
-  async deleteLike(params: LikesGetDto): Promise<Like> {
+  async deleteLike(params: LikesGetDto): Promise<Like | Error> {
     const { id } = params;
 
     let like: Like = null;
 
-    // If the user is not an admin, we check if he is the author of the like
-    if (!this.request.user.roles.includes(Role.ADMIN)) {
-      like = await this.repository.getLike({
-        where: { id },
-      });
+    like = await this.repository.getLike({
+      where: { id },
+    });
 
-      if (like.authorId != this.request.user.id)
-        throw new Error("You can't delete this like");
-    }
+    // checked if the user is the author of the like
+    if (like.authorId != this.request.user.id)
+      throw new UnauthorizedException();
 
     like = await this.repository.deleteLike({
       where: { id },

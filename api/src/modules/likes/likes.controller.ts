@@ -1,6 +1,7 @@
 import { Roles } from '@api/common/decorators/roles.decorator';
 import { RolesGuard } from '@api/common/guards/roles.guard';
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -11,6 +12,7 @@ import {
   Version,
 } from '@nestjs/common';
 import { Like, Role } from '@prisma/client';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { LikesCreateDto, LikesDeleteDto } from './likes.schema';
 import { LikesService } from './likes.service';
 
@@ -32,18 +34,19 @@ export class LikesController {
     return this.likesService.getLike({ id });
   }
 
-  // createLike
   @Post('')
   @Version('1')
-  public createLike(data: LikesCreateDto): Promise<Like> {
+  public createLike(
+    @Body(ZodValidationPipe) data: LikesCreateDto,
+  ): Promise<Like | Error> {
     return this.likesService.createLike(data);
   }
 
-  // delete like
-
   @Delete('')
   @Version('1')
-  public deleteLike(data: LikesDeleteDto): Promise<Like> {
+  public deleteLike(
+    @Body(ZodValidationPipe) data: LikesDeleteDto,
+  ): Promise<Like | Error> {
     return this.likesService.deleteLike(data);
   }
 }
