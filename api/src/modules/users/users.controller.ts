@@ -3,14 +3,20 @@ import { RolesGuard } from '@api/common/guards/roles.guard';
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  Post,
+  Header,
+  Patch,
+  Request,
+  UnauthorizedException,
   UseGuards,
+  UseInterceptors,
   Version,
 } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { UsersDeleteDto, UsersGetDto } from './users.schamea';
+import { PasswordInterceptor } from './users.interceptor';
+import { UsersDeleteDto, UsersGetDto, UsersUpdateDto } from './users.schema';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -20,20 +26,48 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getUsers() {
+  @Header('X-School', 'ESGI')
+  public getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
   @Get('get')
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  getUser(@Body(ZodValidationPipe) body: UsersGetDto) {
+  public getUser(@Body(ZodValidationPipe) body: UsersGetDto): Promise<User> {
     return this.userService.getUser(body);
   }
 
-  @Post('delete')
+  @Delete()
+  @UseInterceptors(PasswordInterceptor)
   @Version('1')
-  deleteUser(@Body(ZodValidationPipe) body: UsersDeleteDto) {
+  public deleteUser(
+    @Body(ZodValidationPipe) body: UsersDeleteDto,
+  ): Promise<User> {
     return this.userService.deleteUser(body);
+  }
+
+  @Patch()
+  @Roles(Role.USER)
+  @UseInterceptors(PasswordInterceptor)
+  @Version('1')
+  public updateUser(
+    @Body(ZodValidationPipe) body: UsersUpdateDto,
+  ): Promise<User | typeof UnauthorizedException> {
+    return this.userService.updateUser(body);
+  }
+
+  @Get('currentUser')
+  @Roles(Role.USER)
+  @UseInterceptors(PasswordInterceptor)
+  @Version('1')
+  public getCurrentUser(
+    @Request() req: Request,
+  ): Promise<User | typeof UnauthorizedException> {
+    const user = new UsersGetDto();
+    user.email = req['user'].email;
+    return this.userService.getUser(user);
   }
 }

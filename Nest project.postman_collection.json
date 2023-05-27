@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8b758bf1-114e-4836-98b1-7f9751b61cd0",
+		"_postman_id": "c303d1df-7f7f-4858-a47e-6d03822cef80",
 		"name": "Nest project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4231301"
@@ -29,31 +29,15 @@
 				},
 				{
 					"name": "Get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "localhost:3000/users/123",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"123"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create user",
-					"request": {
-						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"pouet@pouet.com\",\n    \"firstname\": \"pouet\",\n    \"lastname\": \"PATA\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"coraline@user.fr\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,13 +45,33 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/users",
+							"raw": "localhost:3000/users/get",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users"
+								"users",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/currentUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"currentUser"
 							]
 						}
 					},
@@ -80,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"123\",\n  \"password\": \"reset\",\n  \"email\": \"reset@reset.com\",\n  \"firstname\": \"Reset\",\n  \"lastname\": \"Titi\"\n}",
+							"raw": "{\n  \"email\": \"user@user.fr\",\n  \"firstname\": \"myName\",\n  \"lastname\": \"LastName\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -88,14 +92,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/users/123",
+							"raw": "localhost:3000/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"users",
-								"123"
+								""
 							]
 						}
 					},
@@ -106,19 +110,58 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 11\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/users/123",
+							"raw": "localhost:3000/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"users",
-								"123"
+								""
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -132,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"admin@user.fr\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -160,7 +203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"omega@pouet.com\",\n    \"password\": \"testouille\"\n}",
+							"raw": "{\n    \"email\": \"admin@user.fr\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -176,71 +219,6 @@
 							"path": [
 								"auth",
 								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "successfull auth request",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/auth/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"auth",
-								"profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "failed auth request",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/auth/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"auth",
-								"profile"
 							]
 						}
 					},
@@ -301,18 +279,30 @@
 				},
 				{
 					"name": "Get article",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/articles/20",
+							"raw": "localhost:3000/articles/2",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"20"
+								"2"
 							]
 						}
 					},
@@ -325,7 +315,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage sur la lune\",\n    \"content\": \"Ut aliquam et eros ac consectetur. Nulla vitae condimentum urna. Aliquam sit amet turpis sit amet enim volutpat efficitur sit amet vel lectus. Vestibulum volutpat neque non massa accumsan, et ornare dui luctus. Pellentesque consequat aliquet arcu et iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer molestie lorem arcu. Morbi maximus nulla tincidunt aliquam consectetur. Vivamus sagittis velit vitae leo viverra ultricies. In dolor diam, convallis et pharetra sit amet, iaculis eget ex. Aenean pharetra ultrices ultricies. Praesent mauris sem, sollicitudin eu sem a, fermentum suscipit magna. Suspendisse nibh quam, tristique dignissim cursus eget, suscipit eget lorem.\",\n    \"authorId\": 53,\n    \"categoryId\": 20\n}",
+							"raw": "{\n    \"title\": \"Voyage sur la Lune\", \n    \"content\": \"Ut aliquam et eros ac consectetur. Nulla vitae condimentum urna. Aliquam sit amet turpis sit amet enim volutpat efficitur sit ame\",\n    \"categoryId\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -352,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Voyage au bout de la terre\",\n    \"content\": \"content\"\n}",
+							"raw": "{\n    \"id\": 2,\n    \"title\": \"Hello\",\n    \"content\": \"This is a long text\",\n    \"categoryId\": 2,\n    \"authorId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -360,14 +350,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/articles/27",
+							"raw": "localhost:3000/articles/3",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"27"
+								"3"
 							]
 						}
 					},
@@ -378,23 +368,301 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/articles/19",
+							"raw": "localhost:3000/articles/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"articles",
-								"19"
+								""
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "likes",
+			"item": [
+				{
+					"name": "Get likes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/likes",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get like",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/likes/5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"likes",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add a like to an article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"articleId\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/likes",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove a like to an article",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/likes",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"likes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "Get categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pouet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/get",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 10,\n    \"name\": \"Pouet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/update",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pouet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 11\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

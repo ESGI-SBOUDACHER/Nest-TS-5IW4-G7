@@ -1,6 +1,7 @@
 import { Public } from '@api/common/decorators/public.decorator';
 import { Body, Controller, Post, Version } from '@nestjs/common';
-import { LoginDto, RegisterDto } from './auth.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { AuthLoginDto, AuthRegisterDto } from './auth.schema';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -10,14 +11,14 @@ export class AuthController {
   @Public()
   @Version('1')
   @Post('login')
-  login(@Body() body: LoginDto) {
-    return this.authService.login(body.email, body.password);
+  login(@Body(ZodValidationPipe) body: AuthLoginDto) {
+    return this.authService.login(body);
   }
 
   @Public()
   @Version('1')
   @Post('register')
-  register(@Body() body: RegisterDto) {
-    return this.authService.register(body.email, body.password);
+  register(@Body(ZodValidationPipe) body: AuthRegisterDto) {
+    return this.authService.register(body);
   }
 }
