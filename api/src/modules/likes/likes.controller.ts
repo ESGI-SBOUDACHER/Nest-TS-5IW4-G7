@@ -10,15 +10,18 @@ import {
   Post,
   UseGuards,
   Version,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Like, Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { LikesCreateDto, LikesDeleteDto } from './likes.schema';
 import { LikesService } from './likes.service';
+import { SentryInterceptor } from '@api/sentry.interceptor';
 
 @Controller('likes')
 @Roles(Role.USER)
 @UseGuards(RolesGuard)
+@UseInterceptors(SentryInterceptor)
 export class LikesController {
   constructor(private readonly likesService: LikesService) {}
 
