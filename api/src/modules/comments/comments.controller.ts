@@ -9,6 +9,8 @@ import {
   Post,
   UseGuards,
   Version,
+  UseInterceptors,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -20,12 +22,15 @@ import {
   CommentsUpdateDto,
 } from '../comments/comments.schema';
 import { CommentsService } from './comments.service';
-
+import { SentryInterceptor } from '@api/sentry.interceptor';
+import * as Sentry from '@sentry/node';
 @Controller('comments')
 @Roles(Role.USER)
 @UseGuards(RolesGuard)
+@UseInterceptors(SentryInterceptor)
 export class CommentsController {
-  constructor(private readonly commentService: CommentsService) {}
+  constructor(private readonly commentService: CommentsService) { }
+
 
   @Get()
   @Roles(Role.ADMIN)
@@ -37,7 +42,7 @@ export class CommentsController {
   @Get('articles')
   @Version('1')
   getCommentsByArticle(@Body(ZodValidationPipe) data: CommentsGetByArticleDto) {
-    return this.commentService.getCommentsByArticle(data);
+      return this.commentService.getCommentsByArticle(data);
   }
 
   @Get('get')

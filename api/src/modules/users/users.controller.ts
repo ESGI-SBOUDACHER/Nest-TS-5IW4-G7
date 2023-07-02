@@ -18,10 +18,12 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { PasswordInterceptor } from './users.interceptor';
 import { UsersDeleteDto, UsersGetDto, UsersUpdateDto } from './users.schema';
 import { UsersService } from './users.service';
+import { SentryInterceptor } from '@api/sentry.interceptor';
 
 @Controller('users')
 @Roles(Role.ADMIN)
 @UseGuards(RolesGuard)
+@UseInterceptors(SentryInterceptor)
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

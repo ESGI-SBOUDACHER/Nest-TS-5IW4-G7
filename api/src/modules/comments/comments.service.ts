@@ -9,14 +9,14 @@ import {
   CommentsGetDto,
   CommentsUpdateDto,
 } from './comments.schema';
-
+import * as Sentry from '@sentry/node';
 @Injectable({ scope: Scope.REQUEST })
 export class CommentsService {
   constructor(
     private readonly commentRepository: CommentsRepository,
     private readonly articleRepository: ArticlesRepository,
     @Inject(REQUEST) private readonly request: any, // A voir pour request sans le any
-  ) {}
+  ) { }
 
   async getComments() {
     const comments = await this.commentRepository.getComments({});
@@ -28,13 +28,18 @@ export class CommentsService {
     const article = await this.articleRepository.getArticle({
       where: { id: idArticle },
     });
-    if (article.isPublished) {
-      const comments = await this.commentRepository.getCommentsByArticle({
-        articleId: idArticle,
-      });
-      return comments;
+    if (article) {
+      if (article.isPublished) {
+        const comments = await this.commentRepository.getCommentsByArticle({
+          articleId: idArticle,
+        });
+        return comments;
+      } else {
+        Sentry.captureMessage('Article not published');
+        return 'Article not published';
+      }
     } else {
-      return 'Article not published';
+      return 'Article not found';
     }
   }
 
